@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FixMyRideApp</string>
+    <string name="image_view">Image view</string>
+    <string name="images">Images</string>
+    <string name="Report">Report</string>
+    <string name="reportGeneration">What we\'ve gathered</string>
 </resources>

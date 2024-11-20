@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Model_spinner_items">
+        <item>A4</item>
+        <item>X1</item>
+        <item>A-Class</item>
+        <item>Swift</item>
+        <item>Mustang</item>
+    </string-array>
+</resources>
