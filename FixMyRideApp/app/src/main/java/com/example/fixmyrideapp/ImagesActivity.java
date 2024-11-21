@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
-import android.widget.TextView;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -26,6 +25,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.fixmyrideapp.helpers.ImageAdapter;
+import com.example.fixmyrideapp.helpers.UnsafeOkHttpClient;
 
 
 import java.io.ByteArrayOutputStream;
@@ -55,9 +55,11 @@ public class ImagesActivity extends AppCompatActivity {
     private ImageButton uploadButton;
     private ImageButton clearImagesButton;
 
-    // Variables for the server connection
-    private final String vmIp = "192.168.100.15";
+    String damage_area = "";
 
+    // Variables for the server connection
+    private static final String vmIp = "192.168.50.106";
+//    private final String vmIp = "192.168.100.15";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -210,9 +212,9 @@ public class ImagesActivity extends AppCompatActivity {
         return FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", imageFile);
     }
 
-
     public void connectServer() {
         String postUrl = "http://" + vmIp + ":" + "5000" + "/";
+//        String postUrl = "https://andreidragos029-a625bdec-c5a2-45ce-8f5f-7a8aecc5eed6.socketxp.com/";
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -222,6 +224,8 @@ public class ImagesActivity extends AppCompatActivity {
                 return;
             }
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagesUri.get(0));
+            imagesUri.clear();
+            updateUi();
             bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
         } catch (Exception e) {
             Toast.makeText(this, "Please Make Sure the Selected File is an Image.", Toast.LENGTH_SHORT).show();
@@ -247,19 +251,19 @@ public class ImagesActivity extends AppCompatActivity {
     }
 
     void postRequest(String postUrl, RequestBody postBody) {
+//        OkHttpClient client = UnsafeOkHttpClient.getUnsafeOkHttpClient();
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(postUrl)
                 .post(postBody)
                 .build();
+        Log.d("REQUEST", "URL: " + postUrl);
+        Log.d("REQUEST", "Body: " + postBody.toString());
         client.newCall(request).enqueue(new Callback() {
             @Override
-
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
                 call.cancel();
                 Log.d("FAIL", Objects.requireNonNull(e.getMessage()));
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -270,12 +274,20 @@ public class ImagesActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull final Response response){
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(ImagesActivity.this, "Report Created Successfully!", Toast.LENGTH_SHORT).show();
-
+                        try {
+                            assert response.body() != null;
+                            damage_area = damage_area + response.body().string();
+                            Log.d("SUCCESS", "Response: " + damage_area);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Toast.makeText(ImagesActivity.this, "Report Created Successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(ImagesActivity.this, ReportGenerationActivity.class);
+                        intent.putExtra("damage", damage_area);
+                        startActivity(intent);
                     }
                 });
             }

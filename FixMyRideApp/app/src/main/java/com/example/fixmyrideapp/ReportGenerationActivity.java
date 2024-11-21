@@ -2,9 +2,11 @@ package com.example.fixmyrideapp;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,8 @@ public class ReportGenerationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_report_generation);
+        TextView textView = (TextView) findViewById(R.id.affected_area);
+        textView.setText(getIntent().getStringExtra("damage"));
         Spinner spinnerBrand = (Spinner) findViewById(R.id.spinner_brand);
         Spinner spinnerModel = (Spinner) findViewById(R.id.spinner_model);
         Spinner spinnerYear = (Spinner) findViewById(R.id.spinner_year);
