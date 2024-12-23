@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
+    android:id="@+id/report_generation_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -91,31 +92,62 @@
                 android:layout_marginTop="10dp" />
         </LinearLayout>
 
-        <!-- Affected Area -->
+<!--        &lt;!&ndash; Affected Area &ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical"-->
+<!--            android:layout_marginBottom="16dp">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Affected Area"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textSize="24sp" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/affected_area"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Front Bumper, Rear Bumper, Trunk, Left-Back Body, Rear left tail light"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textSize="14sp"-->
+<!--                android:background="@drawable/button_background"-->
+<!--                android:padding="12dp"-->
+<!--                android:maxHeight="70dp"-->
+<!--                android:layout_marginTop="10dp" />-->
+<!--        </LinearLayout>-->
+
         <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginBottom="16dp">
+            android:padding="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Affected Area"
-                android:textColor="#FFFFFF"
-                android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/affected_area"
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:maxHeight="200dp"
+                android:backgroundTint="@color/cardview_shadow_end_color">
+            <!-- ChipGroup to display selected tags -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/selectedTagsChipGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Front Bumper, Rear Bumper, Trunk, Left-Back Body, Rear left tail light"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp"
-                android:background="@drawable/button_background"
-                android:padding="12dp"
-                android:maxHeight="70dp"
-                android:layout_marginTop="10dp" />
+                app:chipSpacing="8dp" />
+            </ScrollView>
+
+            <!-- AutoCompleteTextView for tag entry -->
+            <AutoCompleteTextView
+                android:id="@+id/tagAutoCompleteTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Add a tag"
+                android:inputType="text" />
+
         </LinearLayout>
 
         <!-- Note -->
@@ -136,6 +168,6 @@
             android:background="@drawable/button_background"
             android:textColor="#FFFFFF"
             android:padding="10dp"
-            android:layout_marginTop="220dp"/>
+            android:layout_marginTop="160dp"/>
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

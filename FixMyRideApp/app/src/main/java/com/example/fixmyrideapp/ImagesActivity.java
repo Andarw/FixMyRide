@@ -25,8 +25,6 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.fixmyrideapp.helpers.ImageAdapter;
-import com.example.fixmyrideapp.helpers.UnsafeOkHttpClient;
-
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -57,9 +55,9 @@ public class ImagesActivity extends AppCompatActivity {
 
     String damage_area = "";
 
-    // Variables for the server connection
-    private static final String vmIp = "192.168.50.106";
-//    private final String vmIp = "192.168.100.15";
+    private static final String vmIp = "192.168.1.10";
+    private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +93,6 @@ public class ImagesActivity extends AppCompatActivity {
     }
 
     // Update the UI
-    @SuppressLint("NotifyDataSetChanged")
     private void updateUi() {
         if (imagesUri.isEmpty()) {
             uploadButton.setVisibility(View.GONE);
@@ -104,7 +101,6 @@ public class ImagesActivity extends AppCompatActivity {
             uploadButton.setVisibility(View.VISIBLE);
             clearImagesButton.setVisibility(View.VISIBLE);
         }
-        imageAdapter.notifyDataSetChanged();
     }
 
     // Clear the images list HELPER METHOD
@@ -211,39 +207,35 @@ public class ImagesActivity extends AppCompatActivity {
         File imageFile = new File(getApplicationContext().getFilesDir(), "camera_photo.jpg");
         return FileProvider.getUriForFile(this, getPackageName() + ".fileprovider", imageFile);
     }
-
-    public void connectServer() {
-        String postUrl = "http://" + vmIp + ":" + "5000" + "/";
-//        String postUrl = "https://andreidragos029-a625bdec-c5a2-45ce-8f5f-7a8aecc5eed6.socketxp.com/";
+    private RequestBody createRequestBody() {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         try {
             if(imagesUri.isEmpty()){
                 Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
-                return;
+                return null;
             }
+            // Curently only one image is supported
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagesUri.get(0));
             imagesUri.clear();
             updateUi();
             bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
         } catch (Exception e) {
             Toast.makeText(this, "Please Make Sure the Selected File is an Image.", Toast.LENGTH_SHORT).show();
-            return;
+             return null;
         }
         byte[] byteArray = stream.toByteArray();
-        RequestBody postBodyImage = new MultipartBody.Builder()
+        return new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("image", "brandImage.jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")))
                 .build();
-        postRequest(postUrl, postBodyImage);
     }
 
     // Create Report method, this is called when the user clicks the "Create Report" button
     private void CreateReport() {
         if (!imagesUri.isEmpty()) {
-            updateUi();
-            connectServer();
+            postRequest(postUrl, createRequestBody());
             imagesUri.clear();
         } else {
             Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
@@ -251,7 +243,6 @@ public class ImagesActivity extends AppCompatActivity {
     }
 
     void postRequest(String postUrl, RequestBody postBody) {
-//        OkHttpClient client = UnsafeOkHttpClient.getUnsafeOkHttpClient();
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(postUrl)
@@ -259,36 +250,29 @@ public class ImagesActivity extends AppCompatActivity {
                 .build();
         Log.d("REQUEST", "URL: " + postUrl);
         Log.d("REQUEST", "Body: " + postBody.toString());
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 call.cancel();
                 Log.d("FAIL", Objects.requireNonNull(e.getMessage()));
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(ImagesActivity.this, "Failed to Connect to Server. Please Try Again.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                runOnUiThread(() -> Toast.makeText(ImagesActivity.this, "Failed to Connect to Server. Please Try Again.", Toast.LENGTH_SHORT).show());
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull final Response response){
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            assert response.body() != null;
-                            damage_area = damage_area + response.body().string();
-                            Log.d("SUCCESS", "Response: " + damage_area);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        Toast.makeText(ImagesActivity.this, "Report Created Successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(ImagesActivity.this, ReportGenerationActivity.class);
-                        intent.putExtra("damage", damage_area);
-                        startActivity(intent);
+                runOnUiThread(() -> {
+                    try {
+                        assert response.body() != null;
+                        damage_area = damage_area + response.body().string();
+                        Log.d("SUCCESS", "Response: " + damage_area);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
+                    Toast.makeText(ImagesActivity.this, "Report Created Successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(ImagesActivity.this, ReportGenerationActivity.class);
+                    intent.putExtra("damage", damage_area);
+                    startActivity(intent);
                 });
             }
         });

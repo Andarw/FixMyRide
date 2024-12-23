@@ -2,6 +2,7 @@ package com.example.fixmyrideapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,19 +22,28 @@ public class MainActivity extends AppCompatActivity {
     private Button loginButton;
     private Button logoutButton;
 
+    private Button createReportButton;
+    private View noAuthButtonsContainer;
+
+    private View loggedInButtonsContainer;
+
+    private Button reportHistoryButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        // Initialize buttons
         signInButton = findViewById(R.id.signInButton);
         loginButton = findViewById(R.id.loginButton);
         logoutButton = findViewById(R.id.logoutButton);
+        createReportButton = findViewById(R.id.createNewReportButton);
+        reportHistoryButton = findViewById(R.id.reportHistoryButton);
+        noAuthButtonsContainer = findViewById(R.id.noAuthButtonsContainer);
+        loggedInButtonsContainer = findViewById(R.id.loggedInButtonsContainer);
 
         // Set click listeners
         signInButton.setOnClickListener(v -> {
@@ -51,34 +61,26 @@ public class MainActivity extends AppCompatActivity {
             updateUI(null);
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        createReportButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ImagesActivity.class);
+            startActivity(intent);
         });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        // Check if user is signed in
         FirebaseUser currentUser = mAuth.getCurrentUser();
         updateUI(currentUser);
     }
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            // User is signed in
-//            signInButton.setVisibility(View.GONE);
-//            loginButton.setVisibility(View.GONE);
-//            logoutButton.setVisibility(View.VISIBLE);
-            Intent intent = new Intent(MainActivity.this, ImagesActivity.class);
-            startActivity(intent);
+            noAuthButtonsContainer.setVisibility(View.GONE);
+            loggedInButtonsContainer.setVisibility(View.VISIBLE);
         } else {
-            // User is signed out
-            signInButton.setVisibility(View.VISIBLE);
-            loginButton.setVisibility(View.VISIBLE);
-            logoutButton.setVisibility(View.GONE);
+            noAuthButtonsContainer.setVisibility(View.VISIBLE);
+            loggedInButtonsContainer.setVisibility(View.GONE);
         }
     }
 }
