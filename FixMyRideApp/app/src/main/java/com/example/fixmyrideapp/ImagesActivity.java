@@ -57,7 +57,7 @@ public class ImagesActivity extends AppCompatActivity {
 
     private static final String vmIp = "192.168.1.10";
     private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,12 +83,12 @@ public class ImagesActivity extends AppCompatActivity {
         cameraButton.setOnClickListener(v -> checkCameraPermissionAndOpenCamera());
         uploadButton.setOnClickListener(v -> CreateReport());
         clearImagesButton.setOnClickListener(v -> clearImages());
-        logoutButton.setOnClickListener(v -> logout());
+        logoutButton.setOnClickListener(v -> goBack());
     }
 
-    private void logout() {
+    private void goBack() {
         imagesUri.clear();
-        Intent intent = new Intent(this, LogInActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -119,7 +119,13 @@ public class ImagesActivity extends AppCompatActivity {
         } else {
             imagesUri.clear();
             imagesUri.addAll(selectedImages);
-            imageAdapter.notifyDataSetChanged();
+            if(imageAdapter == null) {
+                imageAdapter = new ImageAdapter(this, imagesUri);
+                recyclerView.setAdapter(imageAdapter);
+            } else {
+                imageAdapter.notifyDataSetChanged();
+
+            }
             updateUi();
         }
     }
@@ -228,6 +234,7 @@ public class ImagesActivity extends AppCompatActivity {
         byte[] byteArray = stream.toByteArray();
         return new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
+                .addFormDataPart("hasImage", "true")
                 .addFormDataPart("image", "brandImage.jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")))
                 .build();
     }
@@ -269,7 +276,10 @@ public class ImagesActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
-                    Toast.makeText(ImagesActivity.this, "Report Created Successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ImagesActivity.this, "Report info sent successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
+
+                    // Create the unfinished report in the database and add the photos, user_ID and report_id
+
                     Intent intent = new Intent(ImagesActivity.this, ReportGenerationActivity.class);
                     intent.putExtra("damage", damage_area);
                     startActivity(intent);

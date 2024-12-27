@@ -1,16 +1,17 @@
 package com.example.fixmyrideapp;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -19,14 +20,29 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class ReportGenerationActivity extends AppCompatActivity {
 
     private final List<String> predefinedTags = Arrays.asList(
             "Bumper Dent", "Tail Light", "Windshield Crack", "Door Scratch", "Prediction", "Prediction1", "Prediction2", "Prediction3", "Prediction4", "Prediction5"
     );
+
+    private static final String vmIp = "192.168.1.10";
+    private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
+
+    String responseBody = "";
 
     ChipGroup selectedTagsChipGroup;
 
@@ -95,6 +111,10 @@ public class ReportGenerationActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        generateReportButton.setOnClickListener(v -> {
+            createReport();
+        });
     }
 
     // Helper to check if a tag is already added
@@ -129,6 +149,50 @@ public class ReportGenerationActivity extends AppCompatActivity {
         return Arrays.asList(str.split("\\s*,\\s*"));
     }
 
+    private RequestBody createRequestBody(String selectedTags, String selectedBrand, String selectedModel, String selectedYear) {
+        return new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("hasImage", "false")
+                .addFormDataPart("selectedBrand", selectedBrand)
+                .addFormDataPart("selectedModel", selectedModel)
+                .addFormDataPart("selectedYear", selectedYear)
+                .addFormDataPart("selectedTags", selectedTags)
+                .build();
+    }
+
+    void postRequest(String postUrl, RequestBody postBody) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(postUrl)
+                .post(postBody)
+                .build();
+        Log.d("REQUEST", "URL: " + postUrl);
+        Log.d("REQUEST", "Body: " + postBody.toString());
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                call.cancel();
+                Log.d("FAIL", Objects.requireNonNull(e.getMessage()));
+                runOnUiThread(() -> Toast.makeText(ReportGenerationActivity.this, "Failed to Connect to Server(ReportGeneration). Please Try Again.", Toast.LENGTH_SHORT).show());
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull final Response response){
+                runOnUiThread(() -> {
+                    try {
+                        assert response.body() != null;
+                        responseBody = response.body().string();
+                        Log.d("SUCCESS", "Response: " + responseBody);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Toast.makeText(ReportGenerationActivity.this, "Report Created Successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
+                });
+            }
+        });
+    }
+
     private void createReport() {
         StringBuilder selectedTags = new StringBuilder();
         for (int i = 0; i < selectedTagsChipGroup.getChildCount(); i++) {
@@ -152,5 +216,12 @@ public class ReportGenerationActivity extends AppCompatActivity {
         Spinner spinnerYear = findViewById(R.id.spinner_year);
         String selectedYear = spinnerYear.getSelectedItem().toString();
         Log.d("ReportGenerationActivity", "Selected year: " + selectedYear);
+        postRequest(postUrl, createRequestBody(selectedTags.toString(), selectedBrand, selectedModel, selectedYear));
+
+        // update info for the current report, selectedDamage, selectedBrand, selectedModel, selectedYear and add estimated cost, time and links for parts
+
+        Intent intent = new Intent(ReportGenerationActivity.this, ReportActivity.class);
+        intent.putExtra("ReportInfo", responseBody);
+        startActivity(intent);
     }
 }
