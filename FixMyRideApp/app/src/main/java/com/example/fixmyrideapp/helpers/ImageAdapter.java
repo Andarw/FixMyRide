@@ -35,7 +35,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public void onBindViewHolder(@NonNull ImageViewHolder holder, int position) {
         Uri imageUri = imagesUri.get(position);
         holder.imageView.setImageURI(imageUri);
-        holder.imageView.setAlpha(0.5f); // Set the transparency to 50%
+        holder.imageView.setAlpha(0.8f); // Set the transparency to 50%
     }
 
     @Override

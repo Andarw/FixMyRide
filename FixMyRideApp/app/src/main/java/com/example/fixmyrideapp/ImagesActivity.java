@@ -55,7 +55,7 @@ public class ImagesActivity extends AppCompatActivity {
 
     String damage_area = "";
 
-    private static final String vmIp = "192.168.1.10";
+    private static final String vmIp = "192.168.100.15";
     private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
     
     @Override
@@ -217,31 +217,43 @@ public class ImagesActivity extends AppCompatActivity {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        MultipartBody.Builder buildernew = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("hasImage", "true");
         try {
             if(imagesUri.isEmpty()){
                 Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
                 return null;
             }
             // Curently only one image is supported
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagesUri.get(0));
+            for(int i = 0; i < imagesUri.size(); i++) {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagesUri.get(i));
+                bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                buildernew.addFormDataPart("image" + i, "brandImage" + i + ".jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")));
+                stream.reset();
+            }
             imagesUri.clear();
             updateUi();
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
+
         } catch (Exception e) {
             Toast.makeText(this, "Please Make Sure the Selected File is an Image.", Toast.LENGTH_SHORT).show();
              return null;
         }
-        byte[] byteArray = stream.toByteArray();
-        return new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("hasImage", "true")
-                .addFormDataPart("image", "brandImage.jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")))
-                .build();
+        return buildernew.build();
+
+
+//        return new MultipartBody.Builder()
+//                .setType(MultipartBody.FORM)
+//                .addFormDataPart("hasImage", "true")
+//                .addFormDataPart("image", "brandImage.jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")))
+//                .build();
     }
 
     // Create Report method, this is called when the user clicks the "Create Report" button
     private void CreateReport() {
         if (!imagesUri.isEmpty()) {
+            System.out.println(postUrl);
             postRequest(postUrl, createRequestBody());
             imagesUri.clear();
         } else {
