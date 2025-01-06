@@ -106,6 +106,12 @@ public class ReportGenerationActivity extends AppCompatActivity {
         spinnerModel.setAdapter(adapterModelItems);
         spinnerYear.setAdapter(adapterYearItems);
 
+        int brandPosition = adapterBrandItems.getPosition(getIntent().getStringExtra("brand"));
+        spinnerBrand.setSelection(brandPosition);
+
+        int modelPosition = adapterModelItems.getPosition(getIntent().getStringExtra("model"));
+        spinnerModel.setSelection(modelPosition);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.report_generation_container), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);

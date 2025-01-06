@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -291,9 +292,13 @@ public class ImagesActivity extends AppCompatActivity {
                     Toast.makeText(ImagesActivity.this, "Report info sent successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
 
                     // Create the unfinished report in the database and add the photos, user_ID and report_id
-
+                    List<String> split_body = Arrays.asList(damage_area.split("-"));
                     Intent intent = new Intent(ImagesActivity.this, ReportGenerationActivity.class);
-                    intent.putExtra("damage", damage_area);
+                    System.out.println("########" + split_body.get(0) + "     " + split_body.get(1) + "     " + split_body.get(2));
+                    intent.putExtra("brand", split_body.get(0));
+                    intent.putExtra("model", split_body.get(1));
+                    intent.putExtra("damage", split_body.get(2));
+
                     startActivity(intent);
                 });
             }
