@@ -43,7 +43,7 @@ dependencies {
     implementation platform(libs.firebase.bom)
     implementation(libs.firebase.auth)
     implementation libs.okhttp
-    def room_version = "2.5.0"
+    def room_version = "2.5.2"
     implementation libs.room.runtime
     annotationProcessor "androidx.room:room-compiler:$room_version"
 }

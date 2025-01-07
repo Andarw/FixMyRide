@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -24,7 +25,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fixmyrideapp.DaoInterface.ReportDao;
+import com.example.fixmyrideapp.entity.Report;
 import com.example.fixmyrideapp.helpers.ImageAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -54,15 +60,19 @@ public class ImagesActivity extends AppCompatActivity {
     private ImageButton uploadButton;
     private ImageButton clearImagesButton;
 
+    private FirebaseAuth mAuth;
+
     String damage_area = "";
 
-    private static final String vmIp = "192.168.100.15";
+    private static final String vmIp = "192.168.1.2";
     private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_images);
+
+        mAuth = FirebaseAuth.getInstance();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -218,6 +228,7 @@ public class ImagesActivity extends AppCompatActivity {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        List<byte[]> images = new ArrayList<>();
         MultipartBody.Builder buildernew = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("hasImage", "true");
@@ -226,14 +237,15 @@ public class ImagesActivity extends AppCompatActivity {
                 Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
                 return null;
             }
-            // Curently only one image is supported
             for(int i = 0; i < imagesUri.size(); i++) {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagesUri.get(i));
                 bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
                 byte[] byteArray = stream.toByteArray();
+                images.add(byteArray);
                 buildernew.addFormDataPart("image" + i, "brandImage" + i + ".jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")));
                 stream.reset();
             }
+            InsertUnfinishedReport(images);
             imagesUri.clear();
             updateUi();
 
@@ -242,13 +254,6 @@ public class ImagesActivity extends AppCompatActivity {
              return null;
         }
         return buildernew.build();
-
-
-//        return new MultipartBody.Builder()
-//                .setType(MultipartBody.FORM)
-//                .addFormDataPart("hasImage", "true")
-//                .addFormDataPart("image", "brandImage.jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")))
-//                .build();
     }
 
     // Create Report method, this is called when the user clicks the "Create Report" button
@@ -303,5 +308,19 @@ public class ImagesActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void InsertUnfinishedReport(List<byte[]> images) {
+        String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        Report unfinishedReport = new Report(userId, false);
+
+//        AsyncTask.execute(() -> {
+//            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+//            db.reportDao().insert(unfinishedReport);
+//
+//            // Get the inserted report ID
+//            int reportId = db.reportDao().getReportsByUserId(userId).get(0).getReportId();
+//
+//        });
     }
 }
