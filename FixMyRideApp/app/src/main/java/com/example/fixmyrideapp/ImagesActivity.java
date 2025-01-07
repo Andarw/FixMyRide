@@ -30,6 +30,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,7 +56,7 @@ public class ImagesActivity extends AppCompatActivity {
 
     String damage_area = "";
 
-    private static final String vmIp = "192.168.1.10";
+    private static final String vmIp = "192.168.100.15";
     private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
     
     @Override
@@ -217,31 +218,43 @@ public class ImagesActivity extends AppCompatActivity {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        MultipartBody.Builder buildernew = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("hasImage", "true");
         try {
             if(imagesUri.isEmpty()){
                 Toast.makeText(this, "No image selected", Toast.LENGTH_SHORT).show();
                 return null;
             }
             // Curently only one image is supported
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagesUri.get(0));
+            for(int i = 0; i < imagesUri.size(); i++) {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imagesUri.get(i));
+                bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                buildernew.addFormDataPart("image" + i, "brandImage" + i + ".jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")));
+                stream.reset();
+            }
             imagesUri.clear();
             updateUi();
-            bitmap.compress(Bitmap.CompressFormat.WEBP, 100, stream);
+
         } catch (Exception e) {
             Toast.makeText(this, "Please Make Sure the Selected File is an Image.", Toast.LENGTH_SHORT).show();
              return null;
         }
-        byte[] byteArray = stream.toByteArray();
-        return new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("hasImage", "true")
-                .addFormDataPart("image", "brandImage.jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")))
-                .build();
+        return buildernew.build();
+
+
+//        return new MultipartBody.Builder()
+//                .setType(MultipartBody.FORM)
+//                .addFormDataPart("hasImage", "true")
+//                .addFormDataPart("image", "brandImage.jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")))
+//                .build();
     }
 
     // Create Report method, this is called when the user clicks the "Create Report" button
     private void CreateReport() {
         if (!imagesUri.isEmpty()) {
+            System.out.println(postUrl);
             postRequest(postUrl, createRequestBody());
             imagesUri.clear();
         } else {
@@ -279,9 +292,13 @@ public class ImagesActivity extends AppCompatActivity {
                     Toast.makeText(ImagesActivity.this, "Report info sent successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
 
                     // Create the unfinished report in the database and add the photos, user_ID and report_id
-
+                    List<String> split_body = Arrays.asList(damage_area.split("-"));
                     Intent intent = new Intent(ImagesActivity.this, ReportGenerationActivity.class);
-                    intent.putExtra("damage", damage_area);
+                    System.out.println("########" + split_body.get(0) + "     " + split_body.get(1) + "     " + split_body.get(2));
+                    intent.putExtra("brand", split_body.get(0));
+                    intent.putExtra("model", split_body.get(1));
+                    intent.putExtra("damage", split_body.get(2));
+
                     startActivity(intent);
                 });
             }

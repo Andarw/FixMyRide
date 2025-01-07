@@ -2,9 +2,17 @@
 <resources>
     <string-array name="Model_spinner_items">
         <item>A4</item>
-        <item>X1</item>
-        <item>A-Class</item>
-        <item>Swift</item>
+        <item>Seria3</item>
+        <item>X5</item>
+        <item>Corvette</item>
         <item>Mustang</item>
+        <item>Civic</item>
+        <item>3</item>
+        <item>Sklass</item>
+        <item>Cooper</item>
+        <item>Prius</item>
+        <item>Beetle</item>
+        <item>Golf</item>
+        <item>Passat</item>
     </string-array>
 </resources>
