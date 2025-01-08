@@ -2,6 +2,7 @@ package com.example.fixmyrideapp;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -17,10 +18,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.fixmyrideapp.entity.Report;
+import com.example.fixmyrideapp.helpers.DatabaseManager;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +43,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
             "Bumper Dent", "Tail Light", "Windshield Crack", "Door Scratch", "Prediction", "Prediction1", "Prediction2", "Prediction3", "Prediction4", "Prediction5"
     );
 
-    private static final String vmIp = "192.168.100.15";
+    private static final String vmIp = "192.168.1.2";
     private static final String postUrl = "http://" + vmIp + ":" + "5000" + "/";
 
     String responseBody = "";
@@ -185,14 +189,15 @@ public class ReportGenerationActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull final Response response){
+                try {
+                    assert response.body() != null;
+                    responseBody = response.body().string();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                Log.d("SUCCESS", "Response: " + responseBody);
+                updateReportInfoAfterResponse(responseBody);
                 runOnUiThread(() -> {
-                    try {
-                        assert response.body() != null;
-                        responseBody = response.body().string();
-                        Log.d("SUCCESS", "Response: " + responseBody);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
                     Toast.makeText(ReportGenerationActivity.this, "Report Created Successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
                 });
             }
@@ -226,8 +231,64 @@ public class ReportGenerationActivity extends AppCompatActivity {
 
         // update info for the current report, selectedDamage, selectedBrand, selectedModel, selectedYear and add estimated cost, time and links for parts
 
+        updateReportInfoBeforeResponse(selectedTags.toString(), selectedBrand, selectedModel, selectedYear);
+
         Intent intent = new Intent(ReportGenerationActivity.this, ReportActivity.class);
         intent.putExtra("ReportInfo", responseBody);
         startActivity(intent);
     }
+
+    // Helper to update the report info before the response
+    private void updateReportInfoBeforeResponse(String selectedDamage, String selectedBrand, String selectedModel, String selectedYear) {
+        // update info for the current report, selectedDamage, selectedBrand, selectedModel, selectedYear and add estimated cost, time and links for parts
+        String userId = getIntent().getStringExtra("userId");
+            AsyncTask.execute(() -> {
+            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+            Report report = db.reportDao().getUnfinishedReportByUserId(userId);
+            report.setDamagedLocation(selectedDamage);
+            report.setCarBrand(selectedBrand);
+            report.setCarModel(selectedModel);
+            report.setCarYear(selectedYear);
+            db.reportDao().update(report);
+            });
+    }
+
+
+    // Helper to update the report info after the response
+    private void updateReportInfoAfterResponse(String responseBody) {
+        // update info for the current report, selectedDamage, selectedBrand, selectedModel, selectedYear and add estimated cost, time and links for parts
+
+        String[] splitResponse = responseBody.split(",");
+        float estimatedCost = Float.parseFloat(splitResponse[0]);
+        String links = splitResponse[1] + "," + splitResponse[2];
+
+        String userId = getIntent().getStringExtra("userId");
+        String timestamp = new Date(System.currentTimeMillis()).toString();
+        AsyncTask.execute(() -> {
+            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+            Report report = db.reportDao().getUnfinishedReportByUserId(userId);
+            report.setEstimatedCost(estimatedCost);
+            report.setPartLinks(links);
+            report.setCreatedAt(timestamp);
+            report.setFinished(true);
+            db.reportDao().update(report);
+        });
+
+        //PRINT the updated report
+        AsyncTask.execute(() -> {
+            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+            Report report = db.reportDao().getReportsByUserId(userId).get(0);
+            Log.d("DB Report", "Report ID: " + report.getReportId());
+            Log.d("Report", "User ID: " + report.getUserId());
+            Log.d("Report", "Car Brand: " + report.getCarBrand());
+            Log.d("Report", "Car Model: " + report.getCarModel());
+            Log.d("Report", "Car Year: " + report.getCarYear());
+            Log.d("Report", "Damaged Location: " + report.getDamagedLocation());
+            Log.d("Report", "Part Links: " + report.getPartLinks());
+            Log.d("Report", "Estimated Cost: " + report.getEstimatedCost());
+            Log.d("Report", "Created At: " + report.getCreatedAt());
+            Log.d("Report", "Is Finished: " + report.isFinished());
+        });
+    }
+
 }

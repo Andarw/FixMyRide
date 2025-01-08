@@ -11,17 +11,17 @@ import com.example.fixmyrideapp.DaoInterface.ReportDao;
 import com.example.fixmyrideapp.entity.Image;
 import com.example.fixmyrideapp.entity.Report;
 
-@Database(entities = {Report.class, Image.class}, version = 1)
+@Database(entities = {Report.class, Image.class}, version = 2)
 public abstract class DatabaseManager extends RoomDatabase {
     public abstract ReportDao reportDao();
     public abstract ImageDao imageDao();
     private static volatile DatabaseManager INSTANCE;
 
-    static DatabaseManager getInstance(Context context){
+    public static DatabaseManager getInstance(Context context){
         if(INSTANCE == null){
             synchronized (DatabaseManager.class){
                 if(INSTANCE == null){
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), DatabaseManager.class, "FixMyRideDB").build();
+                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), DatabaseManager.class, "FixMyRideDB").fallbackToDestructiveMigration().build();
                 }
             }
         }

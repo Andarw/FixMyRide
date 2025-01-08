@@ -27,7 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fixmyrideapp.DaoInterface.ReportDao;
+import com.example.fixmyrideapp.entity.Image;
 import com.example.fixmyrideapp.entity.Report;
+import com.example.fixmyrideapp.helpers.DatabaseManager;
 import com.example.fixmyrideapp.helpers.ImageAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -63,6 +65,8 @@ public class ImagesActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     String damage_area = "";
+
+    List<byte[]> images = new ArrayList<>();
 
     private static final String vmIp = "192.168.1.2";
     private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
@@ -228,7 +232,7 @@ public class ImagesActivity extends AppCompatActivity {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.RGB_565;
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        List<byte[]> images = new ArrayList<>();
+        images.clear();
         MultipartBody.Builder buildernew = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("hasImage", "true");
@@ -245,7 +249,6 @@ public class ImagesActivity extends AppCompatActivity {
                 buildernew.addFormDataPart("image" + i, "brandImage" + i + ".jpg", RequestBody.create(byteArray, MediaType.parse("image/*jpg")));
                 stream.reset();
             }
-            InsertUnfinishedReport(images);
             imagesUri.clear();
             updateUi();
 
@@ -286,6 +289,7 @@ public class ImagesActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull final Response response){
+                InsertUnfinishedReport(images);
                 runOnUiThread(() -> {
                     try {
                         assert response.body() != null;
@@ -303,24 +307,46 @@ public class ImagesActivity extends AppCompatActivity {
                     intent.putExtra("brand", split_body.get(0));
                     intent.putExtra("model", split_body.get(1));
                     intent.putExtra("damage", split_body.get(2));
-
+                    String userid = getIntent().getStringExtra("userId");
+                    intent.putExtra("userId", userid);
                     startActivity(intent);
                 });
             }
         });
     }
 
+    // Insert the unfinished report into the database HELPER METHOD
     private void InsertUnfinishedReport(List<byte[]> images) {
         String userId = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
         Report unfinishedReport = new Report(userId, false);
 
-//        AsyncTask.execute(() -> {
-//            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
-//            db.reportDao().insert(unfinishedReport);
-//
-//            // Get the inserted report ID
-//            int reportId = db.reportDao().getReportsByUserId(userId).get(0).getReportId();
-//
-//        });
+        AsyncTask.execute(() -> {
+            Log.d("INSERT REPORT", "Inserting report");
+            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+            db.reportDao().insert(unfinishedReport);
+
+            // Get the inserted report ID
+            int reportId = db.reportDao().getUnfinishedReportByUserId(userId).getReportId();
+            for(byte[] image : images){
+                Log.d("IMAGE", "Inserting image");
+                Image imageEntity = new Image(image, reportId);
+                db.imageDao().insert(imageEntity);
+            }
+        });
+
+        AsyncTask.execute(() -> {
+            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+            List<Report> reports = db.reportDao().getReportsByUserId(userId);
+
+            for (Report report : reports) {
+                Log.d("REPORT", "Report ID: " + report.getReportId());
+                List<Image> reportImages = db.imageDao().getImagesByReportId(report.getReportId());
+                for(Image image : reportImages){
+                    Log.d("IMAGE", "Image ID: " + image.getImageId());
+                }
+//                db.reportDao().delete(report);
+            }
+        });
+
     }
 }

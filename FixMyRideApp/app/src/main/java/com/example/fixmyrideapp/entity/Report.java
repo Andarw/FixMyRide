@@ -5,7 +5,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity(tableName = "reports")
 public class Report {
@@ -24,14 +25,16 @@ public class Report {
     private String carBrand; // Maps to car_brand
     @ColumnInfo(name = "car_model")
     private String carModel; // Maps to car_model
+    @ColumnInfo(name = "car_year")
+    private String carYear; // Maps to car_year
     @ColumnInfo(name = "damaged_location")
     private String damagedLocation; // Maps to damaged_location
     @ColumnInfo(name = "part_links")
     private String partLinks; // Maps to part_links
     @ColumnInfo(name = "estimated_cost")
     private float estimatedCost; // Maps to estimated_cost
-//    @ColumnInfo(name = "created_at")
-//    private  createdAt; // Maps to created_at (use type converters for timestamp)
+    @ColumnInfo(name = "created_at")
+    private String createdAt; // Maps to created_at (use type converters for timestamp)
     @ColumnInfo(name = "is_finished")
     @NonNull
     private boolean isFinished;
@@ -92,13 +95,13 @@ public class Report {
         this.estimatedCost = estimatedCost;
     }
 
-//    public Date getCreatedAt() {
-//        return createdAt;
-//    }
-//
-//    public void setCreatedAt(Date createdAt) {
-//        this.createdAt = createdAt;
-//    }
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
 
     public boolean isFinished() {
         return isFinished;
@@ -106,5 +109,13 @@ public class Report {
 
     public void setFinished(boolean finished) {
         isFinished = finished;
+    }
+
+    public String getCarYear() {
+        return carYear;
+    }
+
+    public void setCarYear(String carYear) {
+        this.carYear = carYear;
     }
 }

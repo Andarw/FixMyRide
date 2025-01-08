@@ -9,7 +9,13 @@ import com.example.fixmyrideapp.ImagesActivity;
 @Entity(tableName = "images", foreignKeys = @ForeignKey(entity = Report.class, parentColumns = "report_id", childColumns = "image_report_id", onDelete = ForeignKey.CASCADE, onUpdate = ForeignKey.CASCADE))
 public class Image {
 
-    public Image(){
+    public Image(byte[] image, int reportId) {
+        this.image = image;
+        this.reportId = reportId;
+    }
+
+    public Image() {
+
     }
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name= "image_id")

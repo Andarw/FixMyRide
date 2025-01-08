@@ -15,6 +15,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         createReportButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ImagesActivity.class);
+            intent.putExtra("userId", Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
             startActivity(intent);
         });
     }
