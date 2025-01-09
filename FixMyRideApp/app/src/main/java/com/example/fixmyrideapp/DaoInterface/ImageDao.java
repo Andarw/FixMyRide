@@ -1,6 +1,7 @@
 package com.example.fixmyrideapp.DaoInterface;
 
 import com.example.fixmyrideapp.entity.Image;
+import androidx.lifecycle.LiveData;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -27,8 +28,8 @@ public interface ImageDao {
 
     @Query("SELECT * FROM images WHERE image_id = :imageId")
     Image getImageById(int imageId);
-
     @Query("SELECT * FROM images WHERE image_report_id = :reportId")
     List<Image> getImagesByReportId(int reportId);
-
+    @Query("SELECT * FROM images WHERE image_report_id = :reportId")
+    LiveData<List<Image>> getImagesByReportIdLiveData(int reportId);
 }

@@ -48,6 +48,8 @@ public class ReportGenerationActivity extends AppCompatActivity {
 
     String responseBody = "";
 
+    private int reportId;
+
     ChipGroup selectedTagsChipGroup;
 
     @SuppressLint("MissingInflatedId")
@@ -227,14 +229,14 @@ public class ReportGenerationActivity extends AppCompatActivity {
         Spinner spinnerYear = findViewById(R.id.spinner_year);
         String selectedYear = spinnerYear.getSelectedItem().toString();
         Log.d("ReportGenerationActivity", "Selected year: " + selectedYear);
-        postRequest(postUrl, createRequestBody(selectedTags.toString(), selectedBrand, selectedModel, selectedYear));
-
-        // update info for the current report, selectedDamage, selectedBrand, selectedModel, selectedYear and add estimated cost, time and links for parts
 
         updateReportInfoBeforeResponse(selectedTags.toString(), selectedBrand, selectedModel, selectedYear);
 
+        postRequest(postUrl, createRequestBody(selectedTags.toString(), selectedBrand, selectedModel, selectedYear));
+
         Intent intent = new Intent(ReportGenerationActivity.this, ReportActivity.class);
         intent.putExtra("ReportInfo", responseBody);
+        intent.putExtra("reportId", reportId);
         startActivity(intent);
     }
 
@@ -245,6 +247,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
             AsyncTask.execute(() -> {
             DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
             Report report = db.reportDao().getUnfinishedReportByUserId(userId);
+            reportId = report.getReportId();
             report.setDamagedLocation(selectedDamage);
             report.setCarBrand(selectedBrand);
             report.setCarModel(selectedModel);
@@ -259,8 +262,13 @@ public class ReportGenerationActivity extends AppCompatActivity {
         // update info for the current report, selectedDamage, selectedBrand, selectedModel, selectedYear and add estimated cost, time and links for parts
 
         String[] splitResponse = responseBody.split(",");
-        float estimatedCost = Float.parseFloat(splitResponse[0]);
-        String links = splitResponse[1] + "," + splitResponse[2];
+        String estimatedCost = splitResponse[0];
+        StringBuilder linksBuilder = new StringBuilder();
+        for(int i = 1; i < splitResponse.length; i++){
+            linksBuilder.append(splitResponse[i]);
+            linksBuilder.append(",");
+        }
+        String links = linksBuilder.toString();
 
         String userId = getIntent().getStringExtra("userId");
         String timestamp = new Date(System.currentTimeMillis()).toString();
@@ -275,20 +283,20 @@ public class ReportGenerationActivity extends AppCompatActivity {
         });
 
         //PRINT the updated report
-        AsyncTask.execute(() -> {
-            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
-            Report report = db.reportDao().getReportsByUserId(userId).get(0);
-            Log.d("DB Report", "Report ID: " + report.getReportId());
-            Log.d("Report", "User ID: " + report.getUserId());
-            Log.d("Report", "Car Brand: " + report.getCarBrand());
-            Log.d("Report", "Car Model: " + report.getCarModel());
-            Log.d("Report", "Car Year: " + report.getCarYear());
-            Log.d("Report", "Damaged Location: " + report.getDamagedLocation());
-            Log.d("Report", "Part Links: " + report.getPartLinks());
-            Log.d("Report", "Estimated Cost: " + report.getEstimatedCost());
-            Log.d("Report", "Created At: " + report.getCreatedAt());
-            Log.d("Report", "Is Finished: " + report.isFinished());
-        });
+//        AsyncTask.execute(() -> {
+//            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+//            Report report = db.reportDao().getReportsByUserId(userId).get(0);
+//            Log.d("DB Report", "Report ID: " + report.getReportId());
+//            Log.d("Report", "User ID: " + report.getUserId());
+//            Log.d("Report", "Car Brand: " + report.getCarBrand());
+//            Log.d("Report", "Car Model: " + report.getCarModel());
+//            Log.d("Report", "Car Year: " + report.getCarYear());
+//            Log.d("Report", "Damaged Location: " + report.getDamagedLocation());
+//            Log.d("Report", "Part Links: " + report.getPartLinks());
+//            Log.d("Report", "Estimated Cost: " + report.getEstimatedCost());
+//            Log.d("Report", "Created At: " + report.getCreatedAt());
+//            Log.d("Report", "Is Finished: " + report.isFinished());
+//        });
     }
 
 }

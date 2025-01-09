@@ -11,7 +11,7 @@ import com.example.fixmyrideapp.DaoInterface.ReportDao;
 import com.example.fixmyrideapp.entity.Image;
 import com.example.fixmyrideapp.entity.Report;
 
-@Database(entities = {Report.class, Image.class}, version = 2)
+@Database(entities = {Report.class, Image.class}, version = 3)
 public abstract class DatabaseManager extends RoomDatabase {
     public abstract ReportDao reportDao();
     public abstract ImageDao imageDao();

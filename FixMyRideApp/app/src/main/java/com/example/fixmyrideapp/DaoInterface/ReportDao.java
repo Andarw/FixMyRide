@@ -1,5 +1,6 @@
 package com.example.fixmyrideapp.DaoInterface;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -26,4 +27,8 @@ public interface ReportDao {
     List<Report> getReportsByUserId(String userId);
     @Query("SELECT * FROM reports WHERE user_id = :userId AND is_finished = 0 LIMIT 1")
     Report getUnfinishedReportByUserId(String userId);
+    @Query("SELECT * FROM reports WHERE report_id = :reportId")
+    LiveData<Report> getReportByIdLiveData(int reportId);
+    @Query("SELECT * FROM reports WHERE user_id = :userId")
+    LiveData<List<Report>> getReportsByUserIdLiveData(String userId);
 }

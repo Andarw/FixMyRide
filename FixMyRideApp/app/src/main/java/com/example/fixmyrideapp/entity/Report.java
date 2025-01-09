@@ -32,7 +32,7 @@ public class Report {
     @ColumnInfo(name = "part_links")
     private String partLinks; // Maps to part_links
     @ColumnInfo(name = "estimated_cost")
-    private float estimatedCost; // Maps to estimated_cost
+    private String estimatedCost; // Maps to estimated_cost
     @ColumnInfo(name = "created_at")
     private String createdAt; // Maps to created_at (use type converters for timestamp)
     @ColumnInfo(name = "is_finished")
@@ -87,11 +87,11 @@ public class Report {
         this.partLinks = partLinks;
     }
 
-    public float getEstimatedCost() {
+    public String getEstimatedCost() {
         return estimatedCost;
     }
 
-    public void setEstimatedCost(float estimatedCost) {
+    public void setEstimatedCost(String estimatedCost) {
         this.estimatedCost = estimatedCost;
     }
 
