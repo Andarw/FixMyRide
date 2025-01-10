@@ -4,6 +4,8 @@ import numpy as np
 import json
 from statistics import mode
 from inference import DamageHandler
+from pricelist import get_price_list
+
 
 ROOT = 'C:/Users/HP/Desktop/AN-IV-SEM-I/MSA/Flask/Flask'
 DAMAGE_MODEL_PATH = ROOT + '/damage/14.pth'
@@ -63,9 +65,18 @@ def handle_request():
         brand_name = flask.request.form.get('selectedBrand')
         model_name = flask.request.form.get('selectedModel')    
         model_year = flask.request.form.get('selectedYear') 
-        carid_link = "https://www.carid.com/"+ model_year + "-" + brand_name + "-" + model_name + "-accessories/" 
-        autozone_link = "https://www.autozone.com/parts/collision-body-parts-and-hardware/" + brand_name.lower() + "/" + model_name.lower()
-        return "9999.99," + carid_link + "," + autozone_link
+        damage = flask.request.form.get('selectedTags')
+        print("Thr request received is: ", brand_name, model_name, model_year, damage)
+        model = brand_name + '-' + model_name
+        print("The model is: ", model)
+        report = get_price_list(model, int(model_year), damage_list=[damage])
+        code = report["ModelCode"]
+        price = str(report["TotalMin"]) + "-" + str(report["TotalMax"]) + " RON"
+        links = ", ".join(report["Links"])
+        # response =  code + "," + price + "," + links
+        response = price + "," + links
+        print(response)
+        return response
 
 
 app.run(host="0.0.0.0", port=5000, debug=True)
