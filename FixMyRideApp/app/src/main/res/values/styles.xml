@@ -2,6 +2,6 @@
     <!-- Define Spinner Item Text Appearance -->
     <style name="SpinnerTextAppearance" parent="Theme.AppCompat.Light">
         <item name="android:textColor">#FFFFFF</item> <!-- White text -->
-        <item name="android:background">#0026FF</item> <!-- Optional background -->
+        <item name="android:background">#191C1E</item> <!-- Optional background -->
     </style>
 </resources>

@@ -22,8 +22,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="What we’ve gathered"
-            android:textColor="#FFFFFF"
-            android:textSize="32sp"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="30sp"
             android:textStyle="bold"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="20dp"/>
@@ -39,7 +40,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Brand"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/material_dynamic_neutral10"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
                 android:textSize="24sp" />
 
             <Spinner
@@ -62,7 +65,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Model"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/material_dynamic_neutral10"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
                 android:textSize="24sp" />
 
             <Spinner
@@ -84,7 +89,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Year"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/material_dynamic_neutral10"
+                android:fontFamily="monospace"
+                android:textStyle="bold"
                 android:textSize="24sp" />
 
             <Spinner
@@ -124,6 +131,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Add a tag"
+                android:textColor="@color/material_dynamic_neutral10"
+                android:fontFamily="monospace"
                 android:inputType="text" />
         </LinearLayout>
 
@@ -133,7 +142,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="• If you think we missed something you can change it"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginBottom="16dp" />
 
@@ -142,9 +153,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create Report"
-            android:background="@drawable/button_background"
+            android:backgroundTint="@color/material_dynamic_neutral10"
             android:textColor="#FFFFFF"
             android:padding="10dp"
-            android:layout_marginTop="160dp"/>
+            android:layout_marginTop="16dp"/>
     </LinearLayout>
 </LinearLayout>

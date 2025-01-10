@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/appBannerIcon"
-        android:layout_width="400dp"
+        android:layout_width="450dp"
         android:layout_height="300dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/app_banner_img"
@@ -40,6 +40,9 @@
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="18dp"
             android:text="Sign Up"/>
 
         <Button
@@ -47,6 +50,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="18dp"
             android:text="Login" />
 
     </LinearLayout>
@@ -71,6 +77,9 @@
             android:id="@+id/reportHistoryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="18dp"
             android:text="Report History"/>
 
         <Button
@@ -78,6 +87,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="18dp"
             android:text="Create New Report"/>
 
         <Button
@@ -85,6 +97,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="18dp"
             android:text="Logout"/>
 
     </LinearLayout>

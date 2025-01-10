@@ -19,7 +19,8 @@
             android:text="Vehicle Report"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,16 +31,21 @@
             android:layout_marginTop="24dp"
             android:text="Brand:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleText" />
 
         <TextView
             android:id="@+id/brandValue"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/brandLabel"
             app:layout_constraintStart_toEndOf="@id/brandLabel" />
 
@@ -49,8 +55,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Model:"
+            android:textSize="20dp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/brandLabel" />
 
@@ -59,7 +67,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/modelLabel"
             app:layout_constraintStart_toEndOf="@id/modelLabel" />
 
@@ -70,7 +81,9 @@
             android:layout_marginTop="16dp"
             android:text="Year:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/modelLabel" />
 
@@ -79,7 +92,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/yearLabel"
             app:layout_constraintStart_toEndOf="@id/yearLabel" />
 
@@ -90,7 +106,9 @@
             android:layout_marginTop="24dp"
             android:text="Damaged Parts:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/yearLabel" />
 
@@ -98,9 +116,11 @@
             android:id="@+id/damagedPartsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/white"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
             android:padding="8dp"
-            android:textSize="16sp"
+            android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@id/damagedPartsLabel" />
 
         <TextView
@@ -110,7 +130,9 @@
             android:layout_marginTop="24dp"
             android:text="Estimated Cost:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textSize="20dp"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/damagedPartsRecyclerView" />
 
@@ -119,7 +141,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="20dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/estimatedCostLabel"
             app:layout_constraintStart_toEndOf="@id/estimatedCostLabel" />
 
@@ -130,7 +155,9 @@
             android:layout_marginTop="24dp"
             android:text="Some links to help you in your search:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/material_dynamic_neutral10"
+            android:fontFamily="monospace"
+            android:textSize="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/estimatedCostLabel" />
 
