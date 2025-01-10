@@ -235,9 +235,9 @@ public class ReportGenerationActivity extends AppCompatActivity {
         postRequest(postUrl, createRequestBody(selectedTags.toString(), selectedBrand, selectedModel, selectedYear));
 
         Intent intent = new Intent(ReportGenerationActivity.this, ReportActivity.class);
-        intent.putExtra("ReportInfo", responseBody);
         intent.putExtra("reportId", reportId);
         startActivity(intent);
+        finish();
     }
 
     // Helper to update the report info before the response
@@ -281,22 +281,6 @@ public class ReportGenerationActivity extends AppCompatActivity {
             report.setFinished(true);
             db.reportDao().update(report);
         });
-
-        //PRINT the updated report
-//        AsyncTask.execute(() -> {
-//            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
-//            Report report = db.reportDao().getReportsByUserId(userId).get(0);
-//            Log.d("DB Report", "Report ID: " + report.getReportId());
-//            Log.d("Report", "User ID: " + report.getUserId());
-//            Log.d("Report", "Car Brand: " + report.getCarBrand());
-//            Log.d("Report", "Car Model: " + report.getCarModel());
-//            Log.d("Report", "Car Year: " + report.getCarYear());
-//            Log.d("Report", "Damaged Location: " + report.getDamagedLocation());
-//            Log.d("Report", "Part Links: " + report.getPartLinks());
-//            Log.d("Report", "Estimated Cost: " + report.getEstimatedCost());
-//            Log.d("Report", "Created At: " + report.getCreatedAt());
-//            Log.d("Report", "Is Finished: " + report.isFinished());
-//        });
     }
 
 }

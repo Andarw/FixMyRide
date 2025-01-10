@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_launcher_background">
+    android:background="#FF4C585B">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:layout_marginTop="15dp"
-        android:background ="@color/cardview_shadow_start_color">
+        android:background ="#FF7E99A3">
 
         <TextView
             android:id="@+id/titleText"
@@ -19,7 +19,7 @@
             android:text="Vehicle Report"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,7 +30,7 @@
             android:layout_marginTop="24dp"
             android:text="Brand:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleText" />
 
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintBottom_toBottomOf="@id/brandLabel"
             app:layout_constraintStart_toEndOf="@id/brandLabel" />
 
@@ -50,7 +50,7 @@
             android:layout_marginTop="16dp"
             android:text="Model:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/brandLabel" />
 
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintBottom_toBottomOf="@id/modelLabel"
             app:layout_constraintStart_toEndOf="@id/modelLabel" />
 
@@ -70,7 +70,7 @@
             android:layout_marginTop="16dp"
             android:text="Year:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/modelLabel" />
 
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintBottom_toBottomOf="@id/yearLabel"
             app:layout_constraintStart_toEndOf="@id/yearLabel" />
 
@@ -90,7 +90,7 @@
             android:layout_marginTop="24dp"
             android:text="Damaged Parts:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/yearLabel" />
 
@@ -98,9 +98,12 @@
             android:id="@+id/damagedPartsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:shadowColor="@color/white"
             android:padding="8dp"
+            android:shadowColor="@color/white"
+            android:textColor="@color/text_color"
             android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/damagedPartsLabel" />
 
         <TextView
@@ -110,7 +113,7 @@
             android:layout_marginTop="24dp"
             android:text="Estimated Cost:"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/damagedPartsRecyclerView" />
 
@@ -119,7 +122,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_color"
             app:layout_constraintBottom_toBottomOf="@id/estimatedCostLabel"
             app:layout_constraintStart_toEndOf="@id/estimatedCostLabel" />
 
@@ -128,9 +131,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Some links to help you in your search:"
+            android:text="Some links to help you in your search"
+            android:textColor="@color/text_color"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/estimatedCostLabel" />
 
@@ -139,6 +143,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/partsLinksLabel" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -146,7 +152,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/partsLinksRecyclerView" />
+
+        <Button
+            android:id="@+id/homeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@color/button_color"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="Back to Home Page"
+            android:textColor="@color/text_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imagesRecyclerView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -1,19 +1,16 @@
 package com.example.fixmyrideapp;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +21,6 @@ import com.example.fixmyrideapp.entity.Image;
 import com.example.fixmyrideapp.entity.Report;
 import com.example.fixmyrideapp.helpers.BitmapImageAdapter;
 import com.example.fixmyrideapp.helpers.PartLinkAdapter;
-import com.example.fixmyrideapp.helpers.DatabaseManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,22 +62,13 @@ public class ReportActivity extends AppCompatActivity {
         reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
         imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
 
-//        // attach observer to live data report
-//        reportViewModel.getReportByIdLiveData(reportId).observe(this, report -> {
-//            if(report != null){
-//
-//            }else {
-//                Log.d("ReportActivity In Observer", "Report ID not found");
-//            }
-//        });
-//
-//        //attach observer to live data images
-//        imageViewModel.getImagesByReportIdLiveData(reportId).observe(this, images -> {
-//            if(images != null){
-//                // do something
-//            }
-//        });
         observeData(reportId);
+        Button generateReportButton = (Button) findViewById(R.id.homeButton);
+        generateReportButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ReportActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void initializeViews() {
@@ -153,5 +140,4 @@ public class ReportActivity extends AppCompatActivity {
         }
         imageAdapter.updateImages(bitmaps);
     }
-
 }

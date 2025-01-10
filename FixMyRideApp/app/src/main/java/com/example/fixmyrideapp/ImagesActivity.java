@@ -290,27 +290,28 @@ public class ImagesActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call call, @NonNull final Response response){
                 InsertUnfinishedReport(images);
-                runOnUiThread(() -> {
-                    try {
-                        assert response.body() != null;
-                        damage_area = damage_area + response.body().string();
-                        Log.d("SUCCESS", "Response: " + damage_area);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    Toast.makeText(ImagesActivity.this, "Report info sent successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
+                try {
+                    assert response.body() != null;
+                    damage_area = damage_area + response.body().string();
+                    Log.d("SUCCESS", "Response: " + damage_area);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
-                    // Create the unfinished report in the database and add the photos, user_ID and report_id
-                    List<String> split_body = Arrays.asList(damage_area.split("-"));
-                    Intent intent = new Intent(ImagesActivity.this, ReportGenerationActivity.class);
-                    System.out.println("########" + split_body.get(0) + "     " + split_body.get(1) + "     " + split_body.get(2));
-                    intent.putExtra("brand", split_body.get(0));
-                    intent.putExtra("model", split_body.get(1));
-                    intent.putExtra("damage", split_body.get(2));
-                    String userid = getIntent().getStringExtra("userId");
-                    intent.putExtra("userId", userid);
-                    startActivity(intent);
+                runOnUiThread(() -> {
+                    Toast.makeText(ImagesActivity.this, "Report info sent successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
                 });
+
+                List<String> split_body = Arrays.asList(damage_area.split("-"));
+                Intent intent = new Intent(ImagesActivity.this, ReportGenerationActivity.class);
+                System.out.println("########" + split_body.get(0) + "     " + split_body.get(1) + "     " + split_body.get(2));
+                intent.putExtra("brand", split_body.get(0));
+                intent.putExtra("model", split_body.get(1));
+                intent.putExtra("damage", split_body.get(2));
+                String userid = getIntent().getStringExtra("userId");
+                intent.putExtra("userId", userid);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -337,14 +338,12 @@ public class ImagesActivity extends AppCompatActivity {
         AsyncTask.execute(() -> {
             DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
             List<Report> reports = db.reportDao().getReportsByUserId(userId);
-
             for (Report report : reports) {
                 Log.d("REPORT", "Report ID: " + report.getReportId());
                 List<Image> reportImages = db.imageDao().getImagesByReportId(report.getReportId());
                 for(Image image : reportImages){
                     Log.d("IMAGE", "Image ID: " + image.getImageId());
                 }
-//                db.reportDao().delete(report);
             }
         });
 

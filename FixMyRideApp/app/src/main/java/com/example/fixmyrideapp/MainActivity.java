@@ -51,11 +51,13 @@ public class MainActivity extends AppCompatActivity {
         signInButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
             startActivity(intent);
+            finish();
         });
 
         loginButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LogInActivity.class);
             startActivity(intent);
+            finish();
         });
 
         logoutButton.setOnClickListener(v -> {
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, ImagesActivity.class);
             intent.putExtra("userId", Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
             startActivity(intent);
+            finish();
         });
     }
 

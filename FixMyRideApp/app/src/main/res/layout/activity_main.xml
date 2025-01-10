@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@drawable/ic_launcher_background"
+    android:background="@color/background_color"
     tools:context=".MainActivity">
 
     <ImageView
@@ -13,51 +13,55 @@
         android:layout_width="400dp"
         android:layout_height="300dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
         android:src="@drawable/app_banner_img"
-        app:layout_constraintBottom_toTopOf="@id/noAuthButtonsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Auth Buttons Container -->
+
+    <!-- Logged-in User Buttons Container -->
     <LinearLayout
         android:id="@+id/noAuthButtonsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        android:background="@color/cardview_shadow_start_color"
-        android:backgroundTint="@color/black">
+        app:layout_constraintVertical_bias="0.6"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign Up"/>
+            android:text="Sign Up"
+            android:textColor="@color/text_color"/>
 
         <Button
             android:id="@+id/loginButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Login" />
+            android:text="Login"
+            android:textColor="@color/text_color"/>
 
     </LinearLayout>
 
-    <!-- Logged-in User Buttons Container -->
     <LinearLayout
         android:id="@+id/loggedInButtonsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
+        android:layout_marginTop="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:visibility="gone"
@@ -65,27 +69,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintVertical_bias="0.6">
 
         <Button
             android:id="@+id/reportHistoryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Report History"/>
+            android:text="Report History"
+            android:textColor="@color/text_color"/>
 
         <Button
             android:id="@+id/createNewReportButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Create New Report"/>
+            android:text="Create New Report"
+            android:textColor="@color/text_color"/>
 
         <Button
             android:id="@+id/logoutButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Logout"/>
+            android:text="Logout"
+            android:textColor="@color/text_color"/>
 
     </LinearLayout>
 
