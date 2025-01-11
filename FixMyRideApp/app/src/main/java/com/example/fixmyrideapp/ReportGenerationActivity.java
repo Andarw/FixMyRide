@@ -43,7 +43,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
             "Bumper Dent", "Tail Light", "Windshield Crack", "Door Scratch", "Prediction", "Prediction1", "Prediction2", "Prediction3", "Prediction4", "Prediction5"
     );
 
-    private static final String vmIp = "192.168.1.2";
+    private static final String vmIp = "192.168.100.15";
     private static final String postUrl = "http://" + vmIp + ":" + "5000" + "/";
 
     String responseBody = "";

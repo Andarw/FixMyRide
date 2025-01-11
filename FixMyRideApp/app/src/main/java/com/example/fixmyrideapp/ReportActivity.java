@@ -63,8 +63,8 @@ public class ReportActivity extends AppCompatActivity {
         imageViewModel = new ViewModelProvider(this).get(ImageViewModel.class);
 
         observeData(reportId);
-        Button generateReportButton = (Button) findViewById(R.id.homeButton);
-        generateReportButton.setOnClickListener(v -> {
+        Button homeButton = (Button) findViewById(R.id.homeButton);
+        homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(ReportActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
