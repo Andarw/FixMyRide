@@ -10,6 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="web"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp" />
+        android:textColor="@color/text_color"
+        android:textSize="12sp" />
 </LinearLayout>

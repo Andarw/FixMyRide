@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="button_color">#FFA5BFCC</color>
+    <color name="background_color">#FF4C585B</color>
+    <color name="cardview_shadow_start_color">#FF7E99A3</color>
+    <color name="text_color">#FFF4EDD3</color>
 </resources>
