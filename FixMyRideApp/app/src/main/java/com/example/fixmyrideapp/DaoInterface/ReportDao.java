@@ -31,4 +31,6 @@ public interface ReportDao {
     LiveData<Report> getReportByIdLiveData(int reportId);
     @Query("SELECT * FROM reports WHERE user_id = :userId")
     LiveData<List<Report>> getReportsByUserIdLiveData(String userId);
+    @Query("SELECT * FROM reports WHERE user_id = :userId AND is_finished = 1")
+    LiveData<List<Report>> getFinishedReportsByUserIdLiveData(String userId);
 }

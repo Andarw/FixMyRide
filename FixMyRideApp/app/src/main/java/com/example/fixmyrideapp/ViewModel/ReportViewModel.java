@@ -23,6 +23,10 @@ public class ReportViewModel extends AndroidViewModel {
         return databaseManager.reportDao().getReportsByUserIdLiveData(userId);
     }
 
+    public LiveData<List<Report>> getFinishedReportsByUserIdLiveData(String userId){
+        return databaseManager.reportDao().getFinishedReportsByUserIdLiveData(userId);
+    }
+
     public LiveData<Report> getReportByIdLiveData(int reportId){
         return databaseManager.reportDao().getReportByIdLiveData(reportId);
     }

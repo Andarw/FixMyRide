@@ -62,7 +62,7 @@ public class ReportHistoryActivity extends AppCompatActivity {
     }
 
     private void observeReports(String userId) {
-        reportViewModel.getReportsByUserIdLiveData(userId).observe(this, reports -> {
+        reportViewModel.getFinishedReportsByUserIdLiveData(userId).observe(this, reports -> {
             if (reports != null && !reports.isEmpty()) {
                 emptyStateText.setVisibility(View.GONE);
                 reportsHistoryAdapter.updateReports(reports);
