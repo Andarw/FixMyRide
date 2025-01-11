@@ -25,10 +25,8 @@ def handle_request():
     print(brandsClasses)
     has_image = flask.request.form.get('hasImage', '').lower() == 'true'
     if has_image:
-
         if 'image0' not in flask.request.files:
             return "Error: hasImage is true, but no image was provided.", 400
-
         i = 0
         damage_predictions = ""
         brand_predictions = []
@@ -42,25 +40,27 @@ def handle_request():
             fpath = ROOT + "/image_requests/" + filename
             imagefile.save(fpath)
             damage_prediction = handlerDamage.predict(fpath)
-            if damage_prediction not in damage_predictions:
+            print(damage_prediction)
+            if damage_prediction not in damage_predictions and damage_prediction != 'no_damage':
                 if '_' in damage_prediction:
                     damage_prediction = damage_prediction.replace('_', ' ')
                 damage_prediction = damage_prediction.title()
                 damage_predictions += damage_prediction + ","
 
             brand_prediction = handlerBrands.predict(fpath)
+            print(brand_prediction)
             brand_predictions.append(brand_prediction)
             i += 1
         print(brand_predictions)
         brand_prediction = mode(brand_predictions).title()
-        if 'MERCEDES' not in brand_prediction:
+        if 'Mercedes' not in brand_prediction:
             brand_prediction = brand_prediction.split('-')
         else:
-            brand_prediction = ['MERCEDES-BENZ', 'SKLASS']
+            brand_prediction = ['Mercedes-benz', 'Sklass']
         if len(damage_predictions) == 0:
             damage_predictions = 'No Damage,'
-        print(brand_prediction[0] + '-' + brand_prediction[1] + '-' + damage_predictions)
-        return brand_prediction[0] + '-' + brand_prediction[1] + '-' + damage_predictions
+        print(brand_prediction[0] + '_' + brand_prediction[1] + '_' + damage_predictions)
+        return brand_prediction[0] + '_' + brand_prediction[1] + '_' + damage_predictions
     else:
         brand_name = flask.request.form.get('selectedBrand')
         model_name = flask.request.form.get('selectedModel')    
@@ -69,12 +69,13 @@ def handle_request():
         print("Thr request received is: ", brand_name, model_name, model_year, damage)
         model = brand_name + '-' + model_name
         print("The model is: ", model)
-        report = get_price_list(model, int(model_year), damage_list=[damage])
-        code = report["ModelCode"]
+        damage_list = [item.strip() for item in damage.split(',')]
+        print("The damage is: ", damage_list)
+        report = get_price_list(model, int(model_year), damage_list=damage_list)
+        full_model = model_name + " " + report["ModelCode"]
         price = str(report["TotalMin"]) + "-" + str(report["TotalMax"]) + " RON"
         links = ", ".join(report["Links"])
-        # response =  code + "," + price + "," + links
-        response = price + "," + links
+        response =  full_model + "," + price + "," + links
         print(response)
         return response
 

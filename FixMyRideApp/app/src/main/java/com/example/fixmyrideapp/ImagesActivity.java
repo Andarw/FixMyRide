@@ -310,7 +310,7 @@ public class ImagesActivity extends AppCompatActivity {
                     Toast.makeText(ImagesActivity.this, "Report info sent successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
                 });
 
-                List<String> split_body = Arrays.asList(damage_area.split("-"));
+                List<String> split_body = Arrays.asList(damage_area.split("_"));
                 Intent intent = new Intent(ImagesActivity.this, ReportGenerationActivity.class);
                 System.out.println("########" + split_body.get(0) + "     " + split_body.get(1) + "     " + split_body.get(2));
                 intent.putExtra("brand", split_body.get(0));
@@ -344,17 +344,17 @@ public class ImagesActivity extends AppCompatActivity {
             }
         });
 
-        AsyncTask.execute(() -> {
-            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
-            List<Report> reports = db.reportDao().getReportsByUserId(userId);
-            for (Report report : reports) {
-                Log.d("REPORT", "Report ID: " + report.getReportId());
-                List<Image> reportImages = db.imageDao().getImagesByReportId(report.getReportId());
-                for(Image image : reportImages){
-                    Log.d("IMAGE", "Image ID: " + image.getImageId());
-                }
-            }
-        });
+//        AsyncTask.execute(() -> {
+//            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+//            List<Report> reports = db.reportDao().getReportsByUserId(userId);
+//            for (Report report : reports) {
+//                Log.d("REPORT", "Report ID: " + report.getReportId());
+//                List<Image> reportImages = db.imageDao().getImagesByReportId(report.getReportId());
+//                for(Image image : reportImages){
+//                    Log.d("IMAGE", "Image ID: " + image.getImageId());
+//                }
+//            }
+//        });
 
     }
 }

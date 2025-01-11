@@ -41,9 +41,9 @@ public class ReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_report);
-        int reportId = getIntent().getIntExtra("reportId", 0);
+        int reportId = getIntent().getIntExtra("reportId", -1);
 
-        if(reportId == 0){
+        if(reportId == -1){
             Log.d("ReportActivity", "Report ID not found");
             runOnUiThread(()->{
                 Toast.makeText(this, "Report ID not found", Toast.LENGTH_LONG).show();

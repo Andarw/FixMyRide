@@ -391,7 +391,7 @@ car_data = {
             },
         ]
     },
-    "Mercedes-Benz Sklass": {
+    "Mercedes-benz-Sklass": {
         "Submodels": [
             {   "Name": "W221",
                 "Start Year": 2005,
@@ -608,10 +608,19 @@ def get_price_list(model, year, damage_list):
     total_min, total_max = 0, 0
     link_list = []
     for damage in damage_list:
-        damage_ = DamageMap[damage]
-        total_min += car["Parts"][damage_]["MinPrice"]
-        total_max += car["Parts"][damage_]["MaxPrice"]
-        link_list.append(car["Parts"][damage_]["Link"])
+        if damage == "Door Dent" or damage == "Door Scratch":
+            total_min += 450
+            total_max += 2500
+            link = "https://autoxpert.ro/tinichigerie-si-vopsitorie/?gad_source=1&gclid=Cj0KCQiAyoi8BhDvARIsAO_CDsC81dsyKHBpsiRYA0JCsZeljIzGCdCRYlLu8CoquRWrJY9ByGL81g4aAhL7EALw_wcB"
+            if link not in link_list:
+                link_list.append(link)
+        else:
+            damage_ = DamageMap[damage]
+            total_min += car["Parts"][damage_]["MinPrice"]
+            total_max += car["Parts"][damage_]["MaxPrice"]
+            link = car["Parts"][damage_]["Link"]
+            if link not in link_list:
+                link_list.append(link)
 
     return {"ModelCode": car["Name"],"TotalMin": total_min, "TotalMax": total_max, "Links": link_list}
 
