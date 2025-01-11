@@ -111,6 +111,7 @@ public class SignUpActivity extends AppCompatActivity {
         if (user != null) {
             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
             intent.putExtra("userId", user.getUid());
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         }

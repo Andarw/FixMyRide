@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="What we’ve gathered"
-            android:textColor="@color/material_dynamic_neutral10"
+            android:textColor="@color/button_color"
             android:fontFamily="monospace"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Brand"
-                android:textColor="@color/material_dynamic_neutral10"
+                android:textColor="@color/button_color"
                 android:fontFamily="monospace"
                 android:textStyle="bold"
                 android:textSize="24sp" />
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Model"
-                android:textColor="@color/material_dynamic_neutral10"
+                android:textColor="@color/button_color"
                 android:fontFamily="monospace"
                 android:textStyle="bold"
                 android:textSize="24sp" />
@@ -88,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Year"
-                android:textColor="@color/material_dynamic_neutral10"
+                android:textColor="@color/button_color"
                 android:fontFamily="monospace"
                 android:textStyle="bold"
                 android:textSize="24sp" />
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Add a tag"
-                android:textColor="@color/material_dynamic_neutral10"
+                android:textColor="@color/button_color"
                 android:fontFamily="monospace"
                 android:inputType="text" />
         </LinearLayout>
@@ -141,7 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="• If you think we missed something you can change it"
-            android:textColor="@color/material_dynamic_neutral10"
+            android:textColor="@color/button_color"
             android:fontFamily="monospace"
             android:textStyle="bold"
             android:textSize="18sp"
@@ -152,9 +152,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Create Report"
-            android:backgroundTint="@color/material_dynamic_neutral10"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/button_color"
+            android:textColor="@color/text_color"
             android:padding="10dp"
             android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/btn_discard_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Discard Unfinished Report"
+            android:backgroundTint="@color/button_color"
+            android:textColor="@color/text_color"
+            android:padding="10dp"
+            android:layout_marginTop="16dp"/>
+
     </LinearLayout>
 </LinearLayout>

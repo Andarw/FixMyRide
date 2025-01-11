@@ -26,4 +26,8 @@ public class ReportViewModel extends AndroidViewModel {
     public LiveData<Report> getReportByIdLiveData(int reportId){
         return databaseManager.reportDao().getReportByIdLiveData(reportId);
     }
+
+    public void deleteReport(Report report){
+        databaseManager.reportDao().delete(report);
+    }
 }

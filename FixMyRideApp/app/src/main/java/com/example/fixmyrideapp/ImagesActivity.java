@@ -68,7 +68,7 @@ public class ImagesActivity extends AppCompatActivity {
 
     List<byte[]> images = new ArrayList<>();
 
-    private static final String vmIp = "192.168.100.15";
+    private static final String vmIp = "192.168.1.2";
     private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
     
     @Override
@@ -104,7 +104,15 @@ public class ImagesActivity extends AppCompatActivity {
     private void goBack() {
         imagesUri.clear();
         Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        goBack();
     }
 
     // Update the UI
@@ -282,9 +290,9 @@ public class ImagesActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                runOnUiThread(() -> Toast.makeText(ImagesActivity.this, "Failed to Connect to Server. Please Try Again.", Toast.LENGTH_SHORT).show());
                 call.cancel();
                 Log.d("FAIL", Objects.requireNonNull(e.getMessage()));
-                runOnUiThread(() -> Toast.makeText(ImagesActivity.this, "Failed to Connect to Server. Please Try Again.", Toast.LENGTH_SHORT).show());
             }
 
             @Override
@@ -310,6 +318,7 @@ public class ImagesActivity extends AppCompatActivity {
                 intent.putExtra("damage", split_body.get(2));
                 String userid = getIntent().getStringExtra("userId");
                 intent.putExtra("userId", userid);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }

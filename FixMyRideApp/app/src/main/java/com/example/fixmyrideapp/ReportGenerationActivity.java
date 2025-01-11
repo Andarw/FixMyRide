@@ -43,7 +43,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
             "Bumper Dent", "Tail Light", "Windshield Crack", "Door Scratch", "Prediction", "Prediction1", "Prediction2", "Prediction3", "Prediction4", "Prediction5"
     );
 
-    private static final String vmIp = "192.168.100.15";
+    private static final String vmIp = "192.168.1.2";
     private static final String postUrl = "http://" + vmIp + ":" + "5000" + "/";
 
     String responseBody = "";
@@ -85,6 +85,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
         Spinner spinnerModel = (Spinner) findViewById(R.id.spinner_model);
         Spinner spinnerYear = (Spinner) findViewById(R.id.spinner_year);
         Button generateReportButton = (Button) findViewById(R.id.btn_create_report);
+        Button discardUnfinishedReportButton = (Button) findViewById(R.id.btn_discard_report);
 
         ArrayAdapter<CharSequence> adapterBrandItems = ArrayAdapter.createFromResource(
                 this,
@@ -127,6 +128,15 @@ public class ReportGenerationActivity extends AppCompatActivity {
         generateReportButton.setOnClickListener(v -> {
             createReport();
         });
+
+        discardUnfinishedReportButton.setOnClickListener(v -> {
+            deleteUnfinishedReport();
+            Intent intent = new Intent(ReportGenerationActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+
     }
 
     // Helper to check if a tag is already added
@@ -185,7 +195,8 @@ public class ReportGenerationActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 call.cancel();
-                Log.d("FAIL", Objects.requireNonNull(e.getMessage()));
+                deleteUnfinishedReport();
+                Log.d("FAIL ReportGenAct", Objects.requireNonNull(e.getMessage()));
                 runOnUiThread(() -> Toast.makeText(ReportGenerationActivity.this, "Failed to Connect to Server(ReportGeneration). Please Try Again.", Toast.LENGTH_SHORT).show());
             }
 
@@ -236,6 +247,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
 
         Intent intent = new Intent(ReportGenerationActivity.this, ReportActivity.class);
         intent.putExtra("reportId", reportId);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
     }
@@ -281,6 +293,16 @@ public class ReportGenerationActivity extends AppCompatActivity {
             report.setFinished(true);
             db.reportDao().update(report);
         });
+    }
+
+    void deleteUnfinishedReport() {
+        String userId = getIntent().getStringExtra("userId");
+        AsyncTask.execute(() -> {
+            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
+            Report report = db.reportDao().getUnfinishedReportByUserId(userId);
+            db.reportDao().delete(report);
+        });
+        Log.d("ReportGenerationActivity", "Unfinished report deleted");
     }
 
 }

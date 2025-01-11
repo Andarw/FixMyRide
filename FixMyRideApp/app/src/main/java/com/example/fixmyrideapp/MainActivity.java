@@ -71,6 +71,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
+
+        reportHistoryButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ReportHistoryActivity.class);
+            intent.putExtra("userId", Objects.requireNonNull(mAuth.getCurrentUser()).getUid());
+            startActivity(intent);
+//            finish();
+        });
     }
 
     @Override

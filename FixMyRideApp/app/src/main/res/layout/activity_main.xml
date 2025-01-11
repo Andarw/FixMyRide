@@ -39,7 +39,8 @@
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:backgroundTint="@color/button_color"
+            android:textColor="@color/text_color"
             android:fontFamily="monospace"
             android:textSize="18dp"
             android:text="Sign Up"/>
@@ -49,7 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:textColor="@color/text_color"
+            android:backgroundTint="@color/button_color"
             android:fontFamily="monospace"
             android:textSize="18dp"
             android:text="Login" />
@@ -76,8 +78,9 @@
             android:id="@+id/reportHistoryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:backgroundTint="@color/button_color"
             android:fontFamily="monospace"
+            android:textColor="@color/text_color"
             android:textSize="18dp"
             android:text="Report History"/>
 
@@ -86,7 +89,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:backgroundTint="@color/button_color"
+            android:textColor="@color/text_color"
             android:fontFamily="monospace"
             android:textSize="18dp"
             android:text="Create New Report"/>
@@ -96,7 +100,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/material_dynamic_neutral10"
+            android:backgroundTint="@color/button_color"
+            android:textColor="@color/text_color"
             android:fontFamily="monospace"
             android:textSize="18dp"
             android:text="Logout"/>

@@ -25,6 +25,8 @@ import com.example.fixmyrideapp.helpers.PartLinkAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.Executors;
 
 public class ReportActivity extends AppCompatActivity {
 
@@ -39,7 +41,6 @@ public class ReportActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_report);
-        Log.d("ReportActivity", "onCreate  "+ getIntent().getIntExtra("reportId", 0));
         int reportId = getIntent().getIntExtra("reportId", 0);
 
         if(reportId == 0){
@@ -66,6 +67,16 @@ public class ReportActivity extends AppCompatActivity {
         Button homeButton = (Button) findViewById(R.id.homeButton);
         homeButton.setOnClickListener(v -> {
             Intent intent = new Intent(ReportActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+
+        Button deleteReportButton = (Button) findViewById(R.id.deleteReportButton);
+        deleteReportButton.setOnClickListener(v -> {
+            deleteReport(reportId);
+            Intent intent = new Intent(ReportActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         });
@@ -139,5 +150,18 @@ public class ReportActivity extends AppCompatActivity {
             }
         }
         imageAdapter.updateImages(bitmaps);
+    }
+
+    private void deleteReport(int reportId) {
+        reportViewModel.getReportByIdLiveData(reportId).observe(this, report -> {
+            if (report != null) {
+                Executors.newSingleThreadExecutor().execute(() -> {
+                    reportViewModel.deleteReport(report);
+                    Log.d("ReportActivity", "Report deleted");
+                });
+            } else {
+                Log.d("ReportActivity", "Report not found");
+            }
+        });
     }
 }

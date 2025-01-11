@@ -28,7 +28,6 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="16dp"
-        android:background="@color/cardview_shadow_start_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +41,8 @@
         android:layout_height="wrap_content"
         android:hint="Email"
         android:textColorHint="@color/white"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color"
+        android:fontFamily="monospace"
         android:inputType="textEmailAddress"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -57,7 +57,8 @@
         android:layout_height="wrap_content"
         android:hint="Password"
         android:textColorHint="@color/white"
-        android:textColor="@color/white"
+        android:textColor="@color/text_color"
+        android:fontFamily="monospace"
         android:inputType="textPassword"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -84,7 +85,9 @@
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             android:text="To Login"
-            android:background="@drawable/button_background"/>
+            android:fontFamily="monospace"
+            android:textColor="@color/text_color"
+            android:background="@color/button_color"/>
 
         <Button
             android:id="@+id/signUpButton"
@@ -92,8 +95,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
+            android:fontFamily="monospace"
             android:text="Sign Up"
-            android:background="@drawable/button_background"/>
+            android:background="@color/button_color"/>
 
     </LinearLayout>
     </LinearLayout>
