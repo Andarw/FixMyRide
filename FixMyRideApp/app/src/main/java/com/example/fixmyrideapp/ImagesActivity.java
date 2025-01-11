@@ -68,7 +68,7 @@ public class ImagesActivity extends AppCompatActivity {
 
     List<byte[]> images = new ArrayList<>();
 
-    private static final String vmIp = "192.168.1.2";
+    private static final String vmIp = "192.168.100.15";
     private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
     
     @Override

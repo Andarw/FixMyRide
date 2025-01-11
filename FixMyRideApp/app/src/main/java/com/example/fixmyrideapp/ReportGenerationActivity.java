@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -40,10 +42,10 @@ import okhttp3.Response;
 public class ReportGenerationActivity extends AppCompatActivity {
 
     private final List<String> predefinedTags = Arrays.asList(
-            "Bumper Dent", "Tail Light", "Windshield Crack", "Door Scratch", "Prediction", "Prediction1", "Prediction2", "Prediction3", "Prediction4", "Prediction5"
+            "Bumper Dent", "Bumper Scratch", "Tail Lamp", "Head Lamp", "Glass Shatter", "Door Scratch", "Door Dent"
     );
 
-    private static final String vmIp = "192.168.1.2";
+    private static final String vmIp = "192.168.100.15";
     private static final String postUrl = "http://" + vmIp + ":" + "5000" + "/";
 
     String responseBody = "";
@@ -92,8 +94,8 @@ public class ReportGenerationActivity extends AppCompatActivity {
                 R.array.Brand_spinner_items,
                 R.layout.colored_spinner_layout
         );
-
-        ArrayAdapter<CharSequence> adapterModelItems = ArrayAdapter.createFromResource(
+//        ArrayAdapter<CharSequence> FullModelItems;
+        ArrayAdapter<CharSequence> AdapterModelItems = ArrayAdapter.createFromResource(
                 this,
                 R.array.Model_spinner_items,
                 R.layout.colored_spinner_layout
@@ -106,17 +108,82 @@ public class ReportGenerationActivity extends AppCompatActivity {
         );
 
         adapterBrandItems.setDropDownViewResource(R.layout.spinner_dropdown_layout);
-        adapterModelItems.setDropDownViewResource(R.layout.spinner_dropdown_layout);
         adapterYearItems.setDropDownViewResource(R.layout.spinner_dropdown_layout);
 
         spinnerBrand.setAdapter(adapterBrandItems);
-        spinnerModel.setAdapter(adapterModelItems);
+        spinnerBrand.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ArrayAdapter<CharSequence> FullModelItems = ArrayAdapter.createFromResource(
+                        getApplicationContext(),
+                        R.array.Model_spinner_items,
+                        R.layout.colored_spinner_layout
+                );
+                if(position == 6) {
+                    FullModelItems = ArrayAdapter.createFromResource(
+                            getApplicationContext(),
+                            R.array.VW_spinner_items,
+                            R.layout.colored_spinner_layout
+                    );
+                }
+                else if(position == 1) {
+                    FullModelItems = ArrayAdapter.createFromResource(
+                            getApplicationContext(),
+                            R.array.bmw_spinner_items,
+                            R.layout.colored_spinner_layout
+                    );
+                }
+                else if(position == 0) {
+                    FullModelItems = ArrayAdapter.createFromResource(
+                            getApplicationContext(),
+                            R.array.audi_spinner_items,
+                            R.layout.colored_spinner_layout
+                    );
+                }
+                else if(position == 2) {
+                    FullModelItems = ArrayAdapter.createFromResource(
+                            getApplicationContext(),
+                            R.array.mazda_spinner_items,
+                            R.layout.colored_spinner_layout
+                    );
+                }
+                else if(position == 3) {
+                    FullModelItems = ArrayAdapter.createFromResource(
+                            getApplicationContext(),
+                            R.array.mercedes_spinner_items,
+                            R.layout.colored_spinner_layout
+                    );
+                }
+                else if(position == 4) {
+                    FullModelItems = ArrayAdapter.createFromResource(
+                            getApplicationContext(),
+                            R.array.mini_spinner_items,
+                            R.layout.colored_spinner_layout
+                    );
+                }
+                else if(position == 5) {
+                    FullModelItems = ArrayAdapter.createFromResource(
+                            getApplicationContext(),
+                            R.array.toyota_spinner_items,
+                            R.layout.colored_spinner_layout
+                    );
+                }
+
+                FullModelItems.setDropDownViewResource(R.layout.spinner_dropdown_layout);
+                spinnerModel.setAdapter(FullModelItems);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         spinnerYear.setAdapter(adapterYearItems);
 
         int brandPosition = adapterBrandItems.getPosition(getIntent().getStringExtra("brand"));
         spinnerBrand.setSelection(brandPosition);
 
-        int modelPosition = adapterModelItems.getPosition(getIntent().getStringExtra("model"));
+        int modelPosition = AdapterModelItems.getPosition(getIntent().getStringExtra("model"));
         spinnerModel.setSelection(modelPosition);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.report_generation_container), (v, insets) -> {
@@ -274,9 +341,10 @@ public class ReportGenerationActivity extends AppCompatActivity {
         // update info for the current report, selectedDamage, selectedBrand, selectedModel, selectedYear and add estimated cost, time and links for parts
 
         String[] splitResponse = responseBody.split(",");
-        String estimatedCost = splitResponse[0];
+        String fullModel = splitResponse[0];
+        String estimatedCost = splitResponse[1];
         StringBuilder linksBuilder = new StringBuilder();
-        for(int i = 1; i < splitResponse.length; i++){
+        for(int i = 2; i < splitResponse.length; i++){
             linksBuilder.append(splitResponse[i]);
             linksBuilder.append(",");
         }
@@ -287,6 +355,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
         AsyncTask.execute(() -> {
             DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
             Report report = db.reportDao().getUnfinishedReportByUserId(userId);
+            report.setCarModel(fullModel);
             report.setEstimatedCost(estimatedCost);
             report.setPartLinks(links);
             report.setCreatedAt(timestamp);

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mini_spinner_items">
+        <item>Cooper</item>
+    </string-array>
+</resources>
