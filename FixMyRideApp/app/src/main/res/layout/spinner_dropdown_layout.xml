@@ -4,6 +4,6 @@
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:text="Androchunk"
-    android:textColor="@color/text_color"
+    android:textColor="@color/white"
     android:background="@drawable/spinner_background"
     android:textSize="20sp"/>

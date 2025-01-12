@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.Manifest;
 
@@ -62,6 +63,9 @@ public class ImagesActivity extends AppCompatActivity {
     private ImageButton uploadButton;
     private ImageButton clearImagesButton;
 
+    private ImageView carDamage;
+    private ImageView cropFrame;
+
     private FirebaseAuth mAuth;
 
     String damage_area = "";
@@ -91,6 +95,8 @@ public class ImagesActivity extends AppCompatActivity {
         ImageButton logoutButton = findViewById(R.id.logoutButton);
         uploadButton = findViewById(R.id.createReportButton);
         clearImagesButton = findViewById(R.id.clearImagesButton);
+        cropFrame = findViewById(R.id.imageView5);
+        carDamage = findViewById(R.id.imageVie);
 
         updateUi();
 
@@ -120,9 +126,13 @@ public class ImagesActivity extends AppCompatActivity {
         if (imagesUri.isEmpty()) {
             uploadButton.setVisibility(View.GONE);
             clearImagesButton.setVisibility(View.GONE);
+            carDamage.setVisibility(View.VISIBLE);
+            cropFrame.setVisibility(View.VISIBLE);
         } else {
             uploadButton.setVisibility(View.VISIBLE);
             clearImagesButton.setVisibility(View.VISIBLE);
+            carDamage.setVisibility(View.GONE);
+            cropFrame.setVisibility(View.GONE);
         }
     }
 

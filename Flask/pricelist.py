@@ -21,9 +21,9 @@ car_data = {
                         "Link": "https://www.epiesa.ro/spoiler-audi-a4-b7-8ec-1-6-benzina-102-cai-oe-vw-8e0807521b/18399/101778/epsroprdt-4614068/"
                     },
                     "Glass": {
-                        "MinPrice": "Steel",
-                        "MaxPrice": "Anti-Corrosion",
-                        "Link": "Standard Fit"
+                        "MinPrice": 1985,
+                        "MaxPrice": 1985,
+                        "Link": "https://www.epiesa.ro/parbriz-audi-a4-b8-8k2-1-8-tfsi-benzina-120-cai-oe-vw-8k0845099nvb/25456/101655/epsroprdt-4614204/"
                     }
                 }
             },

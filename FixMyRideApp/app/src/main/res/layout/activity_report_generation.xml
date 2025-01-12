@@ -1,171 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/report_generation_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_launcher_background"
+    android:background="@color/background_color"
     android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <!-- Header Section -->
+<!--    <TextView-->
+<!--        android:id="@+id/title"-->
+<!--        style="@style/HeaderTextStyle"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Create report"-->
+<!--        android:layout_marginTop="20dp"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"/>-->
+
+    <!-- Vehicle Details Section -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/vehicle_details_card"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingBottom="16dp"
-        android:paddingHorizontal="16dp">
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Title -->
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="What we’ve gathered"
-            android:textColor="@color/button_color"
-            android:fontFamily="monospace"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="20dp"/>
-
-        <!-- Brand Dropdown -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Brand"
-                android:textColor="@color/button_color"
-                android:fontFamily="monospace"
-                android:textStyle="bold"
-                android:textSize="24sp" />
-
-            <Spinner
-                android:id="@+id/spinner_brand"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="10dp"
-                />
-        </LinearLayout>
-
-        <!-- Model Dropdown -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Model"
-                android:textColor="@color/button_color"
-                android:fontFamily="monospace"
-                android:textStyle="bold"
-                android:textSize="24sp" />
-
-            <Spinner
-                android:id="@+id/spinner_model"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="10dp" />
-        </LinearLayout>
-
-        <!-- Year Dropdown -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Year"
-                android:textColor="@color/button_color"
-                android:fontFamily="monospace"
-                android:textStyle="bold"
-                android:textSize="24sp" />
-
-            <Spinner
-                android:id="@+id/spinner_year"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:textColor="@color/white"
-                android:layout_marginTop="10dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:maxHeight="200dp"
-                android:backgroundTint="@color/cardview_shadow_end_color">
+            <!-- Brand Section -->
 
-                <!-- ChipGroup to display selected tags -->
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/selectedTagsChipGroup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:chipSpacing="8dp"
-                />
-            </ScrollView>
-
-            <!-- AutoCompleteTextView for tag entry -->
-            <AutoCompleteTextView
-                android:id="@+id/tagAutoCompleteTextView"
+            <TextView
+                android:id="@+id/titleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Add a tag"
+                android:text="Vehicle Report"
+                android:textSize="28sp"
+                android:textStyle="bold"
                 android:textColor="@color/button_color"
-                android:fontFamily="monospace"
-                android:inputType="text" />
+                android:layout_marginBottom="24dp"/>
+            <TextView
+                style="@style/LabelTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Brand" />
+
+            <Spinner
+                android:id="@+id/spinner_brand"
+                style="@style/SpinnerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Model Section -->
+            <TextView
+                style="@style/LabelTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Model" />
+
+            <Spinner
+                android:id="@+id/spinner_model"
+                style="@style/SpinnerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp" />
+
+            <!-- Year Section -->
+            <TextView
+                style="@style/LabelTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Year" />
+
+            <Spinner
+                android:id="@+id/spinner_year"
+                style="@style/SpinnerStyle"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        <!-- Note -->
-        <TextView
-            android:id="@+id/note"
+    <!-- Tags Section -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/tags_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/vehicle_details_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="• If you think we missed something you can change it"
-            android:textColor="@color/button_color"
-            android:fontFamily="monospace"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:layout_marginBottom="16dp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <Button
-            android:id="@+id/btn_create_report"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Create Report"
-            android:backgroundTint="@color/button_color"
-            android:textColor="@color/text_color"
-            android:padding="10dp"
-            android:layout_marginTop="16dp"/>
+            <TextView
+                style="@style/LabelTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Damage Tags" />
 
-        <Button
-            android:id="@+id/btn_discard_report"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Discard Unfinished Report"
-            android:backgroundTint="@color/button_color"
-            android:textColor="@color/text_color"
-            android:padding="10dp"
-            android:layout_marginTop="16dp"/>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxHeight="120dp"
+                android:layout_marginTop="8dp">
 
-    </LinearLayout>
-</LinearLayout>
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/selectedTagsChipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:chipSpacing="8dp" />
+            </ScrollView>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <AutoCompleteTextView
+                    android:id="@+id/tagAutoCompleteTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Add a tag"
+                    android:inputType="text"
+                    style="@style/InputTextStyle"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Note Section -->
+    <TextView
+        android:id="@+id/note"
+        style="@style/NoteTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="• If you think we missed something you can change it"
+        app:layout_constraintTop_toBottomOf="@id/tags_card"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Buttons Section -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_create_report"
+        style="@style/PrimaryButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Create Report"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/note"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_discard_report"
+        style="@style/SecondaryButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Discard Unfinished Report"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_create_report"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@drawable/ic_launcher_background"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <ImageView
@@ -37,12 +37,9 @@
 
         <Button
             android:id="@+id/signInButton"
+            style="@style/PrimaryButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/button_color"
-            android:textColor="@color/text_color"
-            android:fontFamily="monospace"
-            android:textSize="18dp"
             android:text="Sign Up"/>
 
         <Button
@@ -50,10 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textColor="@color/text_color"
-            android:backgroundTint="@color/button_color"
-            android:fontFamily="monospace"
-            android:textSize="18dp"
+            style="@style/PrimaryButtonStyle"
             android:text="Login" />
 
     </LinearLayout>
@@ -78,10 +72,7 @@
             android:id="@+id/reportHistoryButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/button_color"
-            android:fontFamily="monospace"
-            android:textColor="@color/text_color"
-            android:textSize="18dp"
+            style="@style/PrimaryButtonStyle"
             android:text="Report History"/>
 
         <Button
@@ -89,10 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/button_color"
-            android:textColor="@color/text_color"
-            android:fontFamily="monospace"
-            android:textSize="18dp"
+            style="@style/PrimaryButtonStyle"
             android:text="Create New Report"/>
 
         <Button
@@ -100,10 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/button_color"
-            android:textColor="@color/text_color"
-            android:fontFamily="monospace"
-            android:textSize="18dp"
+            style="@style/PrimaryButtonStyle"
             android:text="Logout"/>
 
     </LinearLayout>

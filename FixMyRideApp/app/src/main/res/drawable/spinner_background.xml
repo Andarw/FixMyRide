@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Rounded corners -->
+    <corners android:radius="12dp" />
+
+    <!-- Gradient using shades of #191C1E -->
     <gradient
-        android:startColor="#404A4B"
-        android:endColor="#191C1E"
-        android:angle="270" />
+        android:startColor="#2A2D2F"
+        android:centerColor="#191C1E"
+        android:endColor="#101214"
+        android:angle="90" />
+
+    <!-- Optional: Add a stroke for a clean border -->
+    <stroke
+        android:width="1dp"
+        android:color="#1F2224" />
 </shape>

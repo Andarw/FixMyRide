@@ -5,123 +5,141 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_launcher_background"
+    android:background="@color/white"
     tools:context=".ImagesActivity">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Detect damage"
-        android:textColor="@color/text_color"
-        android:fontFamily="monospace"
-        android:textStyle="bold"
-        android:textSize="35sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/titleText"
+                style="@style/HeaderTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="48dp"
+                android:text="@string/detect_damage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.521" />
+
+            <ImageButton
+                android:id="@+id/logoutButton"
+                style="@style/HeaderButtonStyle"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:contentDescription="@string/logout_description"
+                android:src="@drawable/round_keyboard_double_arrow_left_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.046"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.051" />
 
 
-    <view
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="384dp"
+            android:layout_height="474dp"
+            android:layout_marginBottom="40dp"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintHorizontal_bias="0.454"
+            app:layout_constraintStart_toStartOf="@+id/recyclerView"
+            app:srcCompat="@drawable/baseline_crop_free_24" />
+
+        <ImageView
+            android:id="@+id/imageVie"
+            android:layout_width="214dp"
+            android:layout_height="225dp"
+            android:layout_marginBottom="176dp"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="@+id/recyclerView"
+            app:layout_constraintVertical_bias="0.511"
+            app:srcCompat="@drawable/dmgcar" />
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        class="androidx.recyclerview.widget.RecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:clipToPadding="false"
+        android:padding="8dp"
+        app:layout_constraintBottom_toTopOf="@id/footerLayout2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleText"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout2"
         tools:listitem="@layout/item_image" />
 
-
-    <ImageButton
-        android:id="@+id/logoutButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Logs out the user"
-        android:src="@drawable/baseline_logout_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.024" />
-
-    <TextView
-        android:id="@+id/instructionText"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/footerLayout2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Add some images of the\ndamaged vehicle"
-        android:textAlignment="center"
-        android:textColor="@color/text_color"
-        android:fontFamily="monospace"
-        android:textSize="22sp"
-        android:textFontWeight="900"
+        android:background="@color/footer_color"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.831" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <ImageButton
-        android:id="@+id/galleryButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Opens Gallery"
-        android:src="@drawable/baseline_add_photo_alternate_24"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.372"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/recyclerView"
-        app:layout_constraintVertical_bias="0.944" />
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:constraint_referenced_ids="clearImagesButton,galleryButton,cameraButton,createReportButton"
+            app:flow_horizontalGap="16dp"
+            app:flow_horizontalStyle="spread"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageButton
-        android:id="@+id/cameraButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="32dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Starts Camera"
-        android:src="@drawable/baseline_add_a_photo_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.648"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/galleryButton"
+            style="@style/FooterButtonStyle"
+            android:contentDescription="@string/gallery_description"
+            android:src="@drawable/baseline_add_photo_alternate_24" />
 
-    <ImageButton
-        android:id="@+id/clearImagesButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="32dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Clear Images from local storage"
-        android:src="@drawable/baseline_clear_24"
-        android:backgroundTint="@color/button_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.046"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/cameraButton"
+            style="@style/FooterButtonStyle"
+            android:contentDescription="@string/camera_description"
+            android:src="@drawable/baseline_add_a_photo_24" />
 
-    <ImageButton
-        android:id="@+id/createReportButton"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginBottom="32dp"
-        android:background="@android:color/transparent"
-        android:contentDescription="Upload Images to server"
-        android:src="@drawable/baseline_check_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageButton
+            android:layout_height="70dp"
+            android:layout_width="70dp"
+            android:id="@+id/createReportButton"
+            style="@style/FooterButtonStyle"
+            android:contentDescription="@string/create_report_description"
+            android:src="@drawable/round_done_outline_24" />
+
+        <ImageButton
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:id="@+id/clearImagesButton"
+            style="@style/FooterButtonStyle"
+            android:contentDescription="@string/clear_images_description"
+            android:src="@drawable/baseline_remove_circle_outline_24" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

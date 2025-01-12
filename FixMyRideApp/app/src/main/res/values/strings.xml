@@ -4,4 +4,11 @@
     <string name="images">Images</string>
     <string name="Report">Report</string>
     <string name="reportGeneration">What we\'ve gathered</string>
+    <string name="detect_damage">Detect Damage</string>
+    <string name="logout_description">Logs out the user</string>
+    <string name="add_images_instruction">Add some images of the\ndamaged vehicle</string>
+    <string name="gallery_description">Opens Gallery</string>
+    <string name="camera_description">Starts Camera</string>
+    <string name="create_report_description">Upload Images to server</string>
+    <string name="clear_images_description">Clear Images from local storage</string>
 </resources>
