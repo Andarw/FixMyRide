@@ -8,13 +8,15 @@
     android:background="@color/background_color"
     tools:context=".ReportHistoryActivity">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/reportHistoryTitleContainer"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/button_color"
-        android:elevation="4dp"
-        android:orientation="vertical"
+        android:padding="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
@@ -22,15 +24,30 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="42dp"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="monospace"
             android:text="Report History"
-            android:textColor="@color/text_color"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <ImageButton
+            android:id="@+id/logoutButton2"
+            style="@style/FooterButtonStyle"
+            android:layout_width="67dp"
+            android:layout_height="63dp"
+            android:contentDescription="@string/logout_description"
+            android:src="@drawable/round_keyboard_double_arrow_left_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
@@ -73,7 +90,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="monospace"
             android:text="No reports yet"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
 <!--        <TextView-->

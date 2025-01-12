@@ -13,4 +13,5 @@
     <color name="text_secondary">#B3FFFFFF</color>
     <color name="accent_color">#2196F3</color>
     <color name="error_color">#CF6679</color>
+    <color name="yes">#4CAF50</color>
 </resources>

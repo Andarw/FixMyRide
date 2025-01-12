@@ -37,8 +37,14 @@ public class ReportsHistoryAdapter extends RecyclerView.Adapter<ReportsHistoryAd
     @Override
     public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
         Report report = reports.get(position);
-        String title = report.getReportId() + " - " + report.getCarBrand() + " " + report.getCarModel() + " " + report.getCarYear() + " / " + report.getCreatedAt();
+        String title = report.getCarBrand() + " " + report.getCarModel() + " " + report.getCarYear();
+        String date = report.getCreatedAt();
+        String cost = report.getEstimatedCost();
+        String damage = report.getDamagedLocation();
         holder.titleTextView.setText(title);
+        holder.damageTextView.setText(damage);
+        holder.costTextView.setText(cost);
+        holder.dateTextView.setText(date);
         holder.itemView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ReportActivity.class);
             intent.putExtra("reportId", report.getReportId());
@@ -59,10 +65,16 @@ public class ReportsHistoryAdapter extends RecyclerView.Adapter<ReportsHistoryAd
 
     public static class ReportViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
+        TextView costTextView;
+        TextView damageTextView;
+        TextView dateTextView;
 
         public ReportViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.reportTitle);
+            costTextView = itemView.findViewById(R.id.damageCost);
+            damageTextView = itemView.findViewById(R.id.vehicleInfo);
+            dateTextView = itemView.findViewById(R.id.reportDate);
         }
     }
 }

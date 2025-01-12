@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/button_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -46,7 +47,7 @@
                 android:text="Vehicle Report"
                 android:textSize="28sp"
                 android:textStyle="bold"
-                android:textColor="@color/button_color"
+                android:textColor="@color/text_color"
                 android:layout_marginBottom="24dp"/>
             <TextView
                 style="@style/LabelTextStyle"
@@ -101,6 +102,7 @@
         android:layout_marginTop="16dp"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/button_color"
         app:layout_constraintTop_toBottomOf="@id/vehicle_details_card"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

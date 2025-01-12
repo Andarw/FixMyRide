@@ -17,7 +17,6 @@
             android:layout_height="wrap_content"
             android:elevation="4dp"
             app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/card_background"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
@@ -33,7 +32,7 @@
                     android:text="Vehicle Report"
                     android:textSize="28sp"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    android:textColor="@color/button_color"
                     android:layout_marginBottom="24dp"/>
 
                 <LinearLayout
@@ -47,8 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Brand"
-                        android:textSize="16sp"
-                        android:textColor="@color/text_secondary"/>
+                        style="@style/LabelTextStyle"/>
 
                     <TextView
                         android:id="@+id/brandValue"
@@ -57,7 +55,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:textSize="16sp"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@color/button_color"
                         android:textStyle="bold"/>
                 </LinearLayout>
 
@@ -72,8 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Model"
-                        android:textSize="16sp"
-                        android:textColor="@color/text_secondary"/>
+                        style="@style/LabelTextStyle"/>
 
                     <TextView
                         android:id="@+id/modelValue"
@@ -82,7 +79,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:textSize="16sp"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@color/button_color"
                         android:textStyle="bold"/>
                 </LinearLayout>
 
@@ -97,8 +94,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Year"
-                        android:textSize="16sp"
-                        android:textColor="@color/text_secondary"/>
+                        style="@style/LabelTextStyle"/>
 
                     <TextView
                         android:id="@+id/yearValue"
@@ -107,7 +103,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="16dp"
                         android:textSize="16sp"
-                        android:textColor="@color/text_primary"
+                        android:textColor="@color/button_color"
                         android:textStyle="bold"/>
                 </LinearLayout>
             </LinearLayout>
@@ -120,7 +116,6 @@
             android:layout_marginTop="16dp"
             android:elevation="4dp"
             app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/card_background"
             app:layout_constraintTop_toBottomOf="@id/reportCard">
 
             <LinearLayout
@@ -134,26 +129,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Damaged Parts"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    style="@style/LabelTextStyle"
                     android:layout_marginBottom="16dp"/>
 
                 <TextView
                     android:id="@+id/damagedPartsRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp"/>
+                    style="@style/InputTextStyle"/>
 
                 <TextView
                     android:id="@+id/estimatedCostLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Estimated Cost"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    style="@style/LabelTextStyle"
                     android:layout_marginTop="24dp"
                     android:layout_marginBottom="8dp"/>
 
@@ -161,7 +151,7 @@
                     android:id="@+id/estimatedCostValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/accent_color"
+                    android:textColor="@color/button_color"
                     android:textSize="24sp"
                     android:textStyle="bold"/>
             </LinearLayout>
@@ -174,7 +164,6 @@
             android:layout_marginTop="16dp"
             android:elevation="4dp"
             app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="@color/card_background"
             app:layout_constraintTop_toBottomOf="@id/damageCard">
 
             <LinearLayout
@@ -188,9 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Helpful Resources"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_primary"
+                    style="@style/LabelTextStyle"
                     android:layout_marginBottom="16dp"/>
 
                 <androidx.recyclerview.widget.RecyclerView

@@ -1,8 +1,10 @@
 package com.example.fixmyrideapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +52,7 @@ public class ReportHistoryActivity extends AppCompatActivity {
         }
 
         emptyStateText = findViewById(R.id.emptyStateText);
-
+        ImageButton logoutButton = findViewById(R.id.logoutButton2);
         reportsRecyclerView = findViewById(R.id.reportsRecyclerView);
         reportsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -58,9 +60,15 @@ public class ReportHistoryActivity extends AppCompatActivity {
         reportsRecyclerView.setAdapter(reportsHistoryAdapter);
 
         reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+        logoutButton.setOnClickListener(v -> goBack());
         observeReports(userId);
     }
-
+    private void goBack() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
     private void observeReports(String userId) {
         reportViewModel.getFinishedReportsByUserIdLiveData(userId).observe(this, reports -> {
             if (reports != null && !reports.isEmpty()) {
