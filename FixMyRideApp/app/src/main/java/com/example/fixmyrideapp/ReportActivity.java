@@ -25,7 +25,6 @@ import com.example.fixmyrideapp.helpers.PartLinkAdapter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 
 public class ReportActivity extends AppCompatActivity {
@@ -112,7 +111,6 @@ public class ReportActivity extends AppCompatActivity {
             if(report != null) {
                 updateReportUI(report);
             } else {
-                Log.d("ReportActivity", "Report not found");
                 finish();
             }
         });
@@ -120,7 +118,6 @@ public class ReportActivity extends AppCompatActivity {
         // Observe Images
         imageViewModel.getImagesByReportIdLiveData(reportId).observe(this, images -> {
             if(images != null) {
-                Log.d("ReportActivity", "Images found");
                 updateImagesUI(images);
             }
         });

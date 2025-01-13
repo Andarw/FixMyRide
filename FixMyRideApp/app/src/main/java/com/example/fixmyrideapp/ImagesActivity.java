@@ -72,7 +72,7 @@ public class ImagesActivity extends AppCompatActivity {
 
     List<byte[]> images = new ArrayList<>();
 
-    private static final String vmIp = "192.168.100.15";
+    private static final String vmIp = "192.168.1.8";
     private static String postUrl = "http://" + vmIp + ":" + "5000" + "/";
     
     @Override
@@ -138,7 +138,7 @@ public class ImagesActivity extends AppCompatActivity {
 
     // Clear the images list HELPER METHOD
     @SuppressLint("NotifyDataSetChanged")
-    private void clearImages() {
+        private void clearImages() {
         imagesUri.clear();
         imageAdapter.notifyDataSetChanged();
         updateUi();
@@ -147,6 +147,11 @@ public class ImagesActivity extends AppCompatActivity {
     // Update the image list HELPER METHOD
     @SuppressLint("NotifyDataSetChanged")
     private void updateImageList(List<Uri> selectedImages) {
+        if(selectedImages == null){
+            imagesUri.clear();
+            imageAdapter.notifyDataSetChanged();
+            return;
+        }
         if (selectedImages.isEmpty()) {
             Toast.makeText(this, "No images selected", Toast.LENGTH_SHORT).show();
         } else {
@@ -300,9 +305,12 @@ public class ImagesActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                runOnUiThread(() -> Toast.makeText(ImagesActivity.this, "Failed to Connect to Server. Please Try Again.", Toast.LENGTH_SHORT).show());
-                call.cancel();
+                runOnUiThread(() -> {
+                    Toast.makeText(ImagesActivity.this, "Failed to Connect to Server. Please Try Again.", Toast.LENGTH_SHORT).show();
+                    clearImages();
+                });
                 Log.d("FAIL", Objects.requireNonNull(e.getMessage()));
+                call.cancel();
             }
 
             @Override
@@ -317,7 +325,7 @@ public class ImagesActivity extends AppCompatActivity {
                 }
 
                 runOnUiThread(() -> {
-                    Toast.makeText(ImagesActivity.this, "Report info sent successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ImagesActivity.this, "Report info sent successfully!", Toast.LENGTH_LONG).show();
                 });
 
                 List<String> split_body = Arrays.asList(damage_area.split("_"));
@@ -353,18 +361,5 @@ public class ImagesActivity extends AppCompatActivity {
                 db.imageDao().insert(imageEntity);
             }
         });
-
-//        AsyncTask.execute(() -> {
-//            DatabaseManager db = DatabaseManager.getInstance(getApplicationContext());
-//            List<Report> reports = db.reportDao().getReportsByUserId(userId);
-//            for (Report report : reports) {
-//                Log.d("REPORT", "Report ID: " + report.getReportId());
-//                List<Image> reportImages = db.imageDao().getImagesByReportId(report.getReportId());
-//                for(Image image : reportImages){
-//                    Log.d("IMAGE", "Image ID: " + image.getImageId());
-//                }
-//            }
-//        });
-
     }
 }

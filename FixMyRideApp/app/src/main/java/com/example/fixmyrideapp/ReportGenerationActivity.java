@@ -45,7 +45,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
             "Bumper Dent", "Bumper Scratch", "Tail Lamp", "Head Lamp", "Glass Shatter", "Door Scratch", "Door Dent"
     );
 
-    private static final String vmIp = "192.168.100.15";
+    private static final String vmIp = "192.168.1.8";
     private static final String postUrl = "http://" + vmIp + ":" + "5000" + "/";
 
     String responseBody = "";
@@ -94,7 +94,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
                 R.array.Brand_spinner_items,
                 R.layout.colored_spinner_layout
         );
-//        ArrayAdapter<CharSequence> FullModelItems;
+
         ArrayAdapter<CharSequence> AdapterModelItems = ArrayAdapter.createFromResource(
                 this,
                 R.array.Model_spinner_items,
@@ -206,6 +206,16 @@ public class ReportGenerationActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        deleteUnfinishedReport();
+        Intent intent = new Intent(ReportGenerationActivity.this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+
     // Helper to check if a tag is already added
     private boolean isTagAlreadyAdded(String tag, ChipGroup chipGroup) {
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
@@ -278,7 +288,7 @@ public class ReportGenerationActivity extends AppCompatActivity {
                 Log.d("SUCCESS", "Response: " + responseBody);
                 updateReportInfoAfterResponse(responseBody);
                 runOnUiThread(() -> {
-                    Toast.makeText(ReportGenerationActivity.this, "Report Created Successfully! damage: " + (response.body()).toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ReportGenerationActivity.this, "Report Created Successfully!", Toast.LENGTH_LONG).show();
                 });
             }
         });
@@ -288,6 +298,12 @@ public class ReportGenerationActivity extends AppCompatActivity {
         StringBuilder selectedTags = new StringBuilder();
         for (int i = 0; i < selectedTagsChipGroup.getChildCount(); i++) {
             Chip chip = (Chip) selectedTagsChipGroup.getChildAt(i);
+            if(chip.getText().equals("No Damage")){
+                runOnUiThread(() -> {
+                    Toast.makeText(ReportGenerationActivity.this, "\"No Damage\" is not a valid car part", Toast.LENGTH_LONG).show();
+                });
+                return;
+            }
             selectedTags.append(chip.getText().toString());
             if (i != selectedTagsChipGroup.getChildCount() - 1) {
                 selectedTags.append(", ");
